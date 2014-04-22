@@ -1,0 +1,299 @@
+American
+Angels Stadium of Anaheim
+Los Angeles Angels of Anaheim
+Anaheim
+CA
+19
+4
+1966
+1
+
+American
+Comerica Park
+Detroit Tigers
+Detroit
+MI 
+11
+4
+2000
+1
+
+American
+Fenway Park
+Boston Red Sox
+Boston
+MA
+20
+4
+1912
+1
+
+American
+Globe Life Park in Arlington
+Texas Rangers
+Arlington
+TX
+1
+4
+1994
+1
+
+American
+Kauffman Stadium
+Kansas City Royals
+Kansas City
+MO
+10
+4
+1973
+1
+
+American
+Minute Maid Park
+Houston Astros
+Houston
+TX
+30
+3
+2000
+1
+
+American
+Oco Coliseum
+Oakland Athletics
+Oakland
+CA
+18
+9
+1966
+1
+
+American
+Oriole Park at Camden Yards
+Baltimore Orioles
+Baltimore
+MD
+6
+4
+1992
+1
+
+American
+Progressive Field
+Cleveland Indians
+Cleveland
+OH
+2
+4
+1994
+1
+
+American
+Rogers Centre
+Toronto Blue Jays
+Toronto
+Ontario
+3
+6
+1989
+1
+
+American
+SafeCo Field
+Seattle Mariners
+Seattle
+WA
+15
+7
+1999
+1
+
+American
+Target Field
+Minnesota Twins
+Minneapolis
+MN
+12
+4
+2010
+1
+
+American
+Tropicana Field
+Tampa Bay Rays
+St. Petersburg
+FL
+3
+3
+1990
+1
+
+American
+US Cellular Field
+Chicago White Sox
+Chicago
+IL
+4
+18
+1991
+1
+
+American
+Yankee Stadium
+New York Yankees
+South Bronx
+NY
+16
+4
+2009
+1
+
+National
+AT&T Park
+San Francisco Giants
+San Francisco
+CA
+11
+4
+2000
+1
+
+National
+Busch Stadium
+St. Louis Cardinals
+St. Louis
+MO
+10
+4
+2006
+1
+
+National
+Chase Field
+Arizona Diamondbacks
+Phoenix
+AZ
+31
+3
+1998
+1
+
+National
+Citi Field
+New York Mets
+Queens
+NY
+13
+4
+2009
+1
+
+National
+Citizens Bank Park
+Philadelphia Phillies
+Philadelphia
+PA
+3
+4
+2004
+1
+
+National
+Coors Field
+Colorado Rockies
+Denver
+CO
+26
+4
+1995
+1
+
+National
+Dodger Stadium
+Los Angeles Dodgers
+Los Angeles
+CA
+10
+4
+1962
+1
+
+National
+Great America Ball Park
+Cincinnati Reds
+Cincinnati
+OH
+31
+3
+2003
+1
+
+National
+Marlins Park
+Miami Marlins
+Miami
+FL
+4
+4
+2012
+1
+
+National
+Miller Park
+Milwaukee Brewers
+Milwaukee
+WI
+6
+4
+2001
+1
+
+National
+Nationals Park
+Washington Nationals
+Washington
+DC
+30
+3
+2008
+1
+
+National
+Petco Park
+San Diego Padres
+San Diego
+CA
+8
+4
+2004
+1
+
+National
+PNC Park
+Pittsburgh Pirates
+Pittsburgh
+PA
+31
+3
+2001
+1
+
+National
+Turner Field
+Atlanta Braves
+Atlanta
+GA
+29
+3
+1997
+1
+
+National
+Wrigley Field
+Chicago Cubs
+Chicago
+IL
+23
+4
+1914
+1
