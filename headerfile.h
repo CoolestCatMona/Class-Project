@@ -30,6 +30,23 @@
 
 using namespace std;
 
+// ENUMERATED TYPES
+/*************************************************************************
+* ENUM Menu
+* ------------------------------------------------------------------------
+* This ENUM is designed to create a menu for user selection.
+**************************************************************************/
+enum menu
+{
+	EXIT,
+	STADIUMNAME,
+	TEAMNAME,
+	GRASSTOP,
+	LEAGUETYPE,
+	DATEOFCREATION,
+	RANDOMSTADIUM
+};
+
 
 /**************************************************************************
 * CONSTANTS
@@ -86,12 +103,38 @@ bool byStadium(const stadium &lhs,const stadium &rhs);//IN - start and end
  *************************************************************************/
 bool byTeamName(const stadium &lhs,const stadium &rhs);//IN - start and end
 													   //of stadium Class
+
+/**************************************************************************
+ * byGrass
+ * 	This function tells the std::sort to sort out stadiums that have grass
+ *************************************************************************/
+bool byGrass(const stadium& lhs,const stadium& rhs);
+
+/**************************************************************************
+ * byDate
+ * 	This function tells the std::sort to sort out stadiums that have grass
+ *************************************************************************/
+bool byDate(const stadium& lhs,const stadium& rhs);
+
 /**************************************************************************
  * OutputMLG
  * 	This function outputs a list of Major League Stadiums sorted
  * 	alphabetically
  *************************************************************************/
-void OutputMLG(std::vector<stadium> Stadiums);		//IN - Stadium Class
+void OutputMLG(std::vector<stadium> Stadiums, //IN - Stadium Class
+			   int sortType); 				  //IN - Type of sort being performed
+
+/**************************************************************************
+ * Spacing
+ * 	This function maintains proper spacing for the userChoice function
+ *************************************************************************/
+int Spacing (int input);
+
+/**************************************************************************
+ * UserChoice
+ * 	This function handles the menu for selecting sorting options
+ *************************************************************************/
+void UserChoice(int &userChoice);
 
 
 #endif /* HEADERFILE_H_ */
