@@ -15,12 +15,49 @@
 *
 *		Necessary data is OUTPUT to console and returned to main.cpp.
 *************************************************************************/
-void UserChoice(int &userChoice) // IN  - User(s) desired menu choice.
+void UserChoice(int &userChoice, int menuType, int maxChoice) // IN  - User(s) desired menu choice.
 {
 	// VARIABLES
-	bool invalid; // CALC - Main boolean for the function.
-	int shift;	  // CALC - Number of spaces the error message will be
-	              //        shifted.
+	bool invalid;		// CALC - Main boolean for the function.
+	int shift;	  		// CALC - Number of spaces the error message will be
+						//        shifted.
+	string stadiumMenu; // OUT  - Menu being output to the user
+	string grassSub;	// OUT  - Grass Type Submenu
+	string leagueSub;   // OUT  - League Type Submenu
+	string mainMenu;	// OUT  - Main Menu of the Program
+
+	// INITIALIZE
+	stadiumMenu = { "\nStadium Finder\n"
+				"1 - Sort by Stadium Name\n"
+				"2 - Sort by Team Name\n"
+				"3 - Sort by Playing Surface\n"
+				"4 - Sort by League Type\n"
+				"5 - Sort by Date Opened\n"
+				"6 - Access a Random Stadium\n"
+				"0 - BACK\n"
+				"Enter a command (0 to Return to Previous Menu): "};
+
+	grassSub = { "\nSort by Playing Surface\n"
+				"1 - View Stadiums with Grass Surface\n"
+				"2 - View Stadiums with Astroturf Surface\n"
+				"0 - BACK\n"
+				"Enter a command (0 to Return to Previous Menu): "};
+
+	leagueSub = { "\nSort by League Type\n"
+				"1 - View National League Stadiums\n"
+				"2 - View American League Stadiums\n"
+				"0 - BACK\n"
+				"Enter a command (0 to Return to Previous Menu): "};
+
+	mainMenu = { "\nMain Menu\n"
+				"1 - Stadium Finder\n"
+				"2 - Trip Planner\n"
+				"3 - Souvenir Shop\n"
+				"4 - Distance Measure\n"
+				"5 - Visit a League\n"
+				"6 - Admin Login\n"
+				"0 - EXIT\n"
+				"Enter a command (0 to exit): "};
 
 	// MENU DO-WHILE LOOP - This loop is designed to OUTPUT the menu
 	//                      choices for the user.
@@ -29,16 +66,23 @@ void UserChoice(int &userChoice) // IN  - User(s) desired menu choice.
 		// PROCESS
 		invalid = false;
 
-		// OUTPUT Menu
-		cout << "\nStadium Finder\n";
-		cout << "1 - Sort by Stadium Name\n";
-		cout << "2 - Sort by Team Name\n";
-		cout << "3 - Sort by Grass Type\n";
-		cout << "4 - Sort by League Type\n";
-		cout << "5 - Sort by Date Opened\n";
-		cout << "6 - Access a Random Stadium\n";
-		cout << "0 - EXIT\n";
-		cout << "Enter a command (0 to exit): ";
+		if(menuType == 0)
+		{
+			// OUTPUT Menu
+			cout << stadiumMenu;
+		}
+		else if(menuType == 1)
+		{
+			cout << grassSub;
+		}
+		else if(menuType == 2)
+		{
+			cout << leagueSub;
+		}
+		else if(menuType == 3)
+		{
+			cout << mainMenu;
+		}
 
 		// IF STATEMENT - This statement is designed to check the
 		//                user INPUT is a character and OUTPUT an
@@ -51,8 +95,12 @@ void UserChoice(int &userChoice) // IN  - User(s) desired menu choice.
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			cout << endl;
-			cout << "***** Please input a NUMBER between 0 and 6 "
-				 <<	"*****\n\n";
+
+				cout << "\n***** Please input a NUMBER between 0 and ";
+				cout << maxChoice;
+				cout <<	"*****\n\n";
+
+
 
 			// PROCESS
 			invalid = true;
@@ -63,7 +111,7 @@ void UserChoice(int &userChoice) // IN  - User(s) desired menu choice.
 		//                     if the user INPUT is within the valid
 		//                     range of the program. If not  will
 		//                     OUTPUT error message.
-		else if (userChoice < 0 || userChoice > 6)
+		else if (userChoice < 0 || userChoice > maxChoice)
 		{
 			// MOD - Determines the correct spacing for user INPUT.
 			shift = Spacing(userChoice);
@@ -91,9 +139,9 @@ void UserChoice(int &userChoice) // IN  - User(s) desired menu choice.
 			}
 
 			// OUTPUT
-			cout << "****\n";
-			cout << "**** Please input a number between 0 "
-				 <<	"and 6 ****\n\n";
+			cout << "\n***** Please input a NUMBER between 0 and ";
+			cout << maxChoice;
+			cout <<	"*****\n\n";
 
 			// PROCESS
 			invalid = true;
