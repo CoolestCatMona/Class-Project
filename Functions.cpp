@@ -96,7 +96,7 @@ void randomStadium(std::vector<stadium> Stadiums)
 	}
 	else
 	{
-		cout << "n Astro-Turf Surface.\n";
+		cout << " Astro-Turf Surface.\n";
 	}
 
 }
@@ -116,16 +116,16 @@ bool byStadium(const stadium& lhs,const stadium& rhs)
 	return a < b;
 }
 
-//FUNCTION - Sort the stadium vector by grass top
-bool byGrass(const stadium& lhs,const stadium& rhs)
-{
-	bool a;
-	bool b;
-	a = lhs.getSurface();
-	b = rhs.getSurface();
-
-	return a < b;
-}
+////FUNCTION - Sort the stadium vector by grass top
+//bool byGrass(const stadium& lhs,const stadium& rhs)
+//{
+//	bool a;
+//	bool b;
+//	a = lhs.getSurface();
+//	b = rhs.getSurface();
+//
+//	return a < b;
+//}
 
 //FUNCTION - Sort the stadium vector by Team Name
 bool byTeamName(const stadium &lhs, const stadium &rhs)
@@ -183,10 +183,16 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 	int i;						//CALC - int for looping
 	int j = 1;					//CALC - index starting at 1
 	int size = Stadiums.size();	//CALC - int holding size of vector
+	int fieldMenu;				// CALC - User Choice for field menu
+	int leagueMenu;				// CALC - User Choice for league menu
+	field userChoice;			// CALC - Enum selection for field menu
+	league userLeagueChoice;	// CALC - Enum selection for league menu
 
 	cout << endl;
 
 	//Outputs all MAJOR LEAGUE Stadiums by chosen sort method
+
+	// SORT BY STADIUM NAME
 	if(sortType == 0)
 	{
 		//Tells user that the program is outputting stadiums
@@ -213,6 +219,7 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 				j++;
 		}
 	}
+	// SORT BY TEAM NAME
 	else if(sortType == 1)
 	{
 		//Tells user that the program is outputting stadiums
@@ -224,8 +231,8 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 				//Outputs Header for Table IF Stadiums were found
 				if(j == 1)
 				{
-					cout << "# | Team Name(Stadium Name)\n";
-					cout << setfill('-') << "--|" << setw(12) << '-' << endl;
+					cout << "# |          Team Name          |      Stadium Name\n";
+					cout << setfill('-') << "--|" << setw(56) << '-' << endl;
 				}
 				if(j<10)
 				{
@@ -235,48 +242,115 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 				{
 					cout << j << '|';
 				}
-				cout << Stadiums.at(i).getTeam() << "(" << Stadiums.at(i).getStadium() << ")" << endl;
+				cout << right << setfill(' ') << setw(29) << Stadiums.at(i).getTeam() << "|" << setw(5) << "("  << Stadiums.at(i).getStadium() << ")" << endl;
 				j++;
 		}
+
+		cout << left;
 	}
+	// SORT BY SURFACE TYPE
 	else if(sortType == 2)
 	{
-		//Tells user that the program is outputting stadiums
-		cout << "Outputting a list of ALL Major League Stadiums by sorted by Surface Type...\n\n";
-		//SORT function to sort the vector by stadium
-		sort(Stadiums.begin(), Stadiums.end(), byGrass);
-		sort(Stadiums.begin(), Stadiums.end(), byStadium);
-		for(i = 0; i < size; i++)
-		{
-				//Outputs Header for Table IF Stadiums were found
-				if(j == 1)
-				{
-					cout << "# | Stadium Name(Surface Type)\n";
-					cout << setfill('-') << "--|" << setw(12) << '-' << endl;
-				}
-				if(j<10)
-				{
-					cout << j << " |";
-				}
-				else
-				{
-					cout << j << '|';
-				}
-				cout << Stadiums.at(i).getStadium() << "(";
-				if(Stadiums.at(i).getSurface())
-				{
-					cout << "Grass Surface";
-				}
-				else
-				{
-					cout << "Astro-Turf Surface";
-				}
 
-				cout << ")" << endl;
-				j++;
-		}
+		// FUNCTION UserMenuChoice - This function is designed to DISPLAY
+		//                           the menu to the user(s).
+		UserChoice(fieldMenu, 1, 2);
+
+		// PROCCESS
+		userChoice = field(fieldMenu);
+
+		//SORT function to sort the vector by stadium
+		sort(Stadiums.begin(), Stadiums.end(), byStadium);
+
+		// WHILE LOOP - MAIN BODY LOOP
+			while (userChoice != EXIT)
+			{
+
+				cout << "\nOutputting a list of ALL Major League Stadiums by sorted by Surface Type...\n";
+
+				// SWITCH STATEMENT -
+				switch(userChoice)
+				{
+					// CASE EXIT - Exit Case.
+					case EXITFIELD:
+							  	  break;// END OF CASE EXIT
+
+					// CASE STADIUMNAME
+					case GRASS:
+						for(i = 0; i < size; i++)
+						{
+								//Outputs Header for Table IF Stadiums were found
+								if(Stadiums.at(i).getSurface() && j == 1)
+								{
+									cout << "\n# | Stadiums with Grass Surfaces\n";
+									cout << setfill('-') << "--|" << setw(12) << '-' << endl;
+								}
+								if(Stadiums.at(i).getSurface() && j<10)
+								{
+									cout << j << " |";
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+								else if(Stadiums.at(i).getSurface())
+								{
+									cout << j << '|';
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+						}
+						// REINITALIZE
+						j = 1;
+									break; // END OF CASE STADIUMNAME
+
+					// CASE TEAMNAME
+					case ASTROTURF:
+						for(i = 0; i < size; i++)
+						{
+								//Outputs Header for Table IF Stadiums were found
+								if(!Stadiums.at(i).getSurface() && j == 1)
+								{
+									cout << "\n# | Stadiums with Astroturf Surfaces\n";
+									cout << setfill('-') << "--|" << setw(12) << '-' << endl;
+								}
+								if(!Stadiums.at(i).getSurface() && j<10)
+								{
+									cout << j << " |";
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+								else if(!Stadiums.at(i).getSurface())
+								{
+									cout << j << '|';
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+						}
+						// REINITALIZE
+						j = 1;
+
+									break; // END OF CASE TEAMNAME
+
+					// CASE DEFAULT - Default case.
+					default:
+								break; // END OF CASE DEFAULT
+				}// END OF SWITCH STATEMENT
+
+				// FUNCTION UserChoice - This function is designed to display
+				//                       and grab the menu choice from the user(s).
+				UserChoice(fieldMenu, 1, 2);
+
+				// PROCESS
+				userChoice = field(fieldMenu);
+
+			}
 
 	}
+
+	// SORT BY DATE OPENED
 	else if(sortType == 3)
 	{
 		//Tells user that the program is outputting stadiums
@@ -288,8 +362,8 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 				//Outputs Header for Table IF Stadiums were found
 				if(j == 1)
 				{
-					cout << "# | Stadium Name(Date Opened)\n";
-					cout << setfill('-') << "--|" << setw(12) << '-' << endl;
+					cout << "# |             Team Name       |      Date Opened\n";
+					cout << setfill('-') << "--|" << setw(56) << '-' << endl;
 				}
 				if(j<10)
 				{
@@ -300,21 +374,113 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 					cout << j << '|';
 				}
 				// OUTPUTTING DATE
-				cout << Stadiums.at(i).getStadium() << "(" << Stadiums.at(i).getMonth() << "/";
+				cout << right << setfill(' ') << setw(29) << Stadiums.at(i).getStadium() << "|" << setw(5) << "(" << Stadiums.at(i).getMonth() << "/";
 				cout << Stadiums.at(i).getDay() << "/" << Stadiums.at(i).getYear() <<  ")" << endl;
 				j++;
 		}
+		cout << left;
+	}
+
+	// SORT BY LEAGUE TYPE
+	else if(sortType == 4)
+	{
+
+		// FUNCTION UserMenuChoice - This function is designed to DISPLAY
+		//                           the menu to the user(s).
+		UserChoice(leagueMenu, 2, 2);
+
+		// PROCCESS
+		userLeagueChoice = league(leagueMenu);
+
+		cout << "\nOutputting a list of ALL Major League Stadiums by sorted by League...\n";
+		//SORT function to sort the vector by stadium
+		sort(Stadiums.begin(), Stadiums.end(), byStadium);
+
+		// WHILE LOOP - MAIN BODY LOOP
+			while (userLeagueChoice != EXIT)
+			{
+				// SWITCH STATEMENT -
+				switch(userLeagueChoice)
+				{
+					// CASE EXIT - Exit Case.
+					case EXITFIELD:
+							  	  break;// END OF CASE EXIT
+
+					// CASE STADIUMNAME
+					case NATIONALLEAGUE:
+						for(i = 0; i < size; i++)
+						{
+								//Outputs Header for Table IF Stadiums were found
+								if(Stadiums.at(i).getLeague() == NATIONAL && j == 1)
+								{
+									cout << "\n# | National League Stadiums\n";
+									cout << setfill('-') << "--|" << setw(12) << '-' << endl;
+								}
+								if(Stadiums.at(i).getLeague() == NATIONAL && j<10)
+								{
+									cout << j << " |";
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+								else if(Stadiums.at(i).getLeague() == NATIONAL)
+								{
+									cout << j << '|';
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+						}
+							// REINITALIZE
+							j = 1;
+									break; // END OF CASE NATIONALLEAGUE
+
+					// CASE TEAMNAME
+					case AMERICANLEAGUE:
+						for(i = 0; i < size; i++)
+						{
+								//Outputs Header for Table IF Stadiums were found
+								if(Stadiums.at(i).getLeague() == AMERICAN && j == 1)
+								{
+									cout << "\n# | American League Stadiums\n";
+									cout << setfill('-') << "--|" << setw(12) << '-' << endl;
+								}
+								if(Stadiums.at(i).getLeague() == AMERICAN && j<10)
+								{
+									cout << j << " |";
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+								else if(Stadiums.at(i).getLeague() == AMERICAN)
+								{
+									cout << j << '|';
+									cout << Stadiums.at(i).getStadium();
+									cout << endl;
+									j++;
+								}
+						}
+							// REINITALIZE
+							j = 1;
+									break; // END OF CASE NATIONALLEAGUE
+									break; // END OF CASE AMERICANLEAGUE
+
+					// CASE DEFAULT - Default case.
+					default:
+								break; // END OF CASE DEFAULT
+				}// END OF SWITCH STATEMENT
+
+				// FUNCTION UserChoice - This function is designed to display
+				//                       and grab the menu choice from the user(s).
+				UserChoice(leagueMenu, 2, 2);
+
+				// PROCESS
+				userLeagueChoice = league(leagueMenu);
+
+			}
 
 	}
 
-
-//
-//	//Output if no stadiums were found
-//	if (j <= 1)
-//	{
-//		cout << "There were no stadiums of the " << MAJOR
-//				<< " League found.\n";
-//	}
 	//Outputs a new line and resets setfill before next section of output
 	cout << endl << setfill(' ');
 }

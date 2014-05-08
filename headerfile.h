@@ -47,6 +47,45 @@ enum menu
 	RANDOMSTADIUM
 };
 
+/*************************************************************************
+* ENUM field
+* ------------------------------------------------------------------------
+* This ENUM is designed to create a menu for user selection.
+**************************************************************************/
+enum field
+{
+	EXITFIELD,
+	GRASS,
+	ASTROTURF
+};
+
+/*************************************************************************
+* ENUM league
+* ------------------------------------------------------------------------
+* This ENUM is designed to create a menu for user selection.
+**************************************************************************/
+enum league
+{
+	EXITlEAGUE,
+	NATIONALLEAGUE,
+	AMERICANLEAGUE
+};
+
+/*************************************************************************
+* ENUM mainMenu
+* ------------------------------------------------------------------------
+* This ENUM is designed to create a main menu for user selection
+**************************************************************************/
+enum mainMenu
+{
+	EXITMAIN,
+	STADIUMFINDER,
+	TRIPPLANNER,
+	SOUVENIRSHOP,
+	DISTANCEMEASURE,
+	LEAGUEVISIT,
+	ADMINLOGIN
+};
 
 /**************************************************************************
 * CONSTANTS
@@ -134,7 +173,7 @@ int Spacing (int input);
  * UserChoice
  * 	This function handles the menu for selecting sorting options
  *************************************************************************/
-void UserChoice(int &userChoice);
+void UserChoice(int &userChoice, int menuType, int maxMenu);
 
 
 #endif /* HEADERFILE_H_ */
