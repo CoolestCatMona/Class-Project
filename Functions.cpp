@@ -484,3 +484,352 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 	//Outputs a new line and resets setfill before next section of output
 	cout << endl << setfill(' ');
 }
+void Dijkstra(vertex_t source,
+                          const adjacency_list_t &adjacency_list,
+                          std::vector<weight_t> &min_distance,
+                          std::vector<vertex_t> &previous)
+{
+    int n = adjacency_list.size();
+    min_distance.clear();
+    min_distance.resize(n, max_weight);
+    min_distance[source] = 0;
+    previous.clear();
+    previous.resize(n, -1);
+    std::set<std::pair<weight_t, vertex_t> > vertex_queue;
+    vertex_queue.insert(std::make_pair(min_distance[source], source));
+
+    while (!vertex_queue.empty())
+    {
+        weight_t dist = vertex_queue.begin()->first;
+        vertex_t u = vertex_queue.begin()->second;
+        vertex_queue.erase(vertex_queue.begin());
+
+        // Visit each edge exiting u
+	const std::vector<neighbor> &neighbors = adjacency_list[u];
+        for (std::vector<neighbor>::const_iterator neighbor_iter
+        		= neighbors.begin();
+             neighbor_iter != neighbors.end();
+             neighbor_iter++)
+        {
+            vertex_t v = neighbor_iter->target;
+            weight_t weight = neighbor_iter->weight;
+            weight_t distance_through_u = dist + weight;
+	    if (distance_through_u < min_distance[v]) {
+	        vertex_queue.erase(std::make_pair(min_distance[v], v));
+
+	        min_distance[v] = distance_through_u;
+	        previous[v] = u;
+	        vertex_queue.insert(std::make_pair(min_distance[v], v));
+
+	    }
+
+        }
+    }
+}
+std::list<vertex_t> Shortest(
+    vertex_t vertex, const std::vector<vertex_t> &previous)
+{
+    std::list<vertex_t> path;
+    for ( ; vertex != -1; vertex = previous[vertex])
+        path.push_front(vertex);
+    return path;
+}
+void StoryTen()
+{
+	//Creates graph containing map properties
+    adjacency_list_t adjacency_list(30);
+    //String containing ballpark names
+    string ballparks[30] = {"AT&T Park","Oco Coliseum","SafeCo Field",
+    						"Dodger Stadium","Angels Stadium of Anaheim",
+    						"Chase Field", "Petco Park", "Coors Field",
+    						"Target Field","Globe Life Park in Arlington",
+    						"Minute Maid Park","Kauffman Stadium",
+    						"Miller Park","Wrigley Field",
+    						"US Cellular Park","Busch Stadium",
+    						"Rogers Center","Progressive Field",
+    						"Great America Ballpark","Turner Field",
+    						"Tropicana Field","Tropicana Field",
+    						"Marlins Park","PNC Park","Fenway Park",
+    						"Citizens Bank Park","Yankee Stadium",
+    						"Citi Field","Oriole Park at Camden Yards",
+    						"Nationals Park"};
+    int i;								//Integer for looping
+    int FirstPick;						//Menu option picked by user
+    int SecondPick;						//Second option by user
+    bool invalid = true;				//Valid menu choice
+    int j;								//Integer for looping
+    adjacency_list[ATT].push_back(neighbor(SAFECO, 680));
+    adjacency_list[ATT].push_back(neighbor(DODGERS, 340));
+    adjacency_list[ATT].push_back(neighbor(ANGELS, 340));
+    adjacency_list[ATT].push_back(neighbor(CHASE, 650));
+
+    adjacency_list[OCO].push_back(neighbor(SAFECO, 680));
+    adjacency_list[OCO].push_back(neighbor(DODGERS, 340));
+    adjacency_list[OCO].push_back(neighbor(ANGELS, 340));
+    adjacency_list[OCO].push_back(neighbor(CHASE, 650));
+
+    adjacency_list[SAFECO].push_back(neighbor(ATT, 680));
+    adjacency_list[SAFECO].push_back(neighbor(OCO, 680));
+    adjacency_list[SAFECO].push_back(neighbor(TARGET, 1390));
+    adjacency_list[SAFECO].push_back(neighbor(ROGERS, 2070));
+
+    adjacency_list[DODGERS].push_back(neighbor(TARGET, 1500));
+    adjacency_list[DODGERS].push_back(neighbor(ATT, 340));
+    adjacency_list[DODGERS].push_back(neighbor(OCO, 340));
+    adjacency_list[DODGERS].push_back(neighbor(PETCO, 110));
+
+    adjacency_list[ANGELS].push_back(neighbor(TARGET, 1500));
+    adjacency_list[ANGELS].push_back(neighbor(ATT, 340));
+    adjacency_list[ANGELS].push_back(neighbor(OCO, 340));
+    adjacency_list[ANGELS].push_back(neighbor(PETCO, 110));
+
+    adjacency_list[CHASE].push_back(neighbor(ATT, 650));
+    adjacency_list[CHASE].push_back(neighbor(OCO, 650));
+    adjacency_list[CHASE].push_back(neighbor(PETCO, 300));
+    adjacency_list[CHASE].push_back(neighbor(COORS, 830));
+    adjacency_list[CHASE].push_back(neighbor(RANGERS, 870));
+    adjacency_list[CHASE].push_back(neighbor(MM, 1115));
+
+    adjacency_list[PETCO].push_back(neighbor(DODGERS, 110));
+    adjacency_list[PETCO].push_back(neighbor(ANGELS, 110));
+    adjacency_list[PETCO].push_back(neighbor(COORS, 830));
+    adjacency_list[PETCO].push_back(neighbor(CHASE, 300));
+
+    adjacency_list[COORS].push_back(neighbor(ROYALS, 560));
+    adjacency_list[COORS].push_back(neighbor(RANGERS, 650));
+    adjacency_list[COORS].push_back(neighbor(CHASE, 580));
+    adjacency_list[COORS].push_back(neighbor(PETCO, 830));
+
+    adjacency_list[TARGET].push_back(neighbor(SAFECO, 1390));
+    adjacency_list[TARGET].push_back(neighbor(MILLER, 300));
+    adjacency_list[TARGET].push_back(neighbor(BUSCH, 465));
+    adjacency_list[TARGET].push_back(neighbor(ANGELS, 1500));
+    adjacency_list[TARGET].push_back(neighbor(DODGERS, 1500));
+
+    adjacency_list[RANGERS].push_back(neighbor(MM, 230));
+    adjacency_list[RANGERS].push_back(neighbor(CHASE, 870));
+    adjacency_list[RANGERS].push_back(neighbor(COORS, 650));
+    adjacency_list[RANGERS].push_back(neighbor(ROYALS, 460));
+    adjacency_list[RANGERS].push_back(neighbor(TURNER, 740));
+
+    adjacency_list[MM].push_back(neighbor(CHASE, 1115));
+    adjacency_list[MM].push_back(neighbor(RANGERS, 230));
+    adjacency_list[MM].push_back(neighbor(BUSCH, 680));
+    adjacency_list[MM].push_back(neighbor(TROPICANA, 790));
+    adjacency_list[MM].push_back(neighbor(MARLINS, 965));
+
+    adjacency_list[ROYALS].push_back(neighbor(COORS, 560));
+    adjacency_list[ROYALS].push_back(neighbor(RANGERS, 460));
+    adjacency_list[ROYALS].push_back(neighbor(BUSCH, 235));
+    adjacency_list[ROYALS].push_back(neighbor(WRIGLEY, 560));
+    adjacency_list[ROYALS].push_back(neighbor(CELLULAR, 560));
+
+    adjacency_list[MILLER].push_back(neighbor(WRIGLEY, 80));
+    adjacency_list[MILLER].push_back(neighbor(CELLULAR, 80));
+    adjacency_list[MILLER].push_back(neighbor(TARGET, 300));
+    adjacency_list[MILLER].push_back(neighbor(ROGERS, 430));
+
+    adjacency_list[WRIGLEY].push_back(neighbor(MILLER, 80));
+    adjacency_list[WRIGLEY].push_back(neighbor(COMERCIA, 240));
+    adjacency_list[WRIGLEY].push_back(neighbor(ROYALS, 415));
+
+    adjacency_list[CELLULAR].push_back(neighbor(MILLER, 80));
+    adjacency_list[CELLULAR].push_back(neighbor(COMERCIA, 240));
+    adjacency_list[CELLULAR].push_back(neighbor(ROYALS, 415));
+
+    adjacency_list[BUSCH].push_back(neighbor(TARGET, 465));
+    adjacency_list[BUSCH].push_back(neighbor(ROYALS, 235));
+    adjacency_list[BUSCH].push_back(neighbor(MM, 680));
+    adjacency_list[BUSCH].push_back(neighbor(GAP, 310));
+
+    adjacency_list[ROGERS].push_back(neighbor(SAFECO, 2070));
+    adjacency_list[ROGERS].push_back(neighbor(MILLER, 430));
+    adjacency_list[ROGERS].push_back(neighbor(COMERCIA, 210));
+    adjacency_list[ROGERS].push_back(neighbor(PNC, 115));
+    adjacency_list[ROGERS].push_back(neighbor(FENWAY, 430));
+
+    adjacency_list[COMERCIA].push_back(neighbor(ROGERS, 210));
+    adjacency_list[COMERCIA].push_back(neighbor(PROGRESSIVE, 90));
+    adjacency_list[COMERCIA].push_back(neighbor(WRIGLEY, 240));
+    adjacency_list[COMERCIA].push_back(neighbor(CELLULAR, 240));
+
+    adjacency_list[PROGRESSIVE].push_back(neighbor(COMERCIA, 90));
+    adjacency_list[PROGRESSIVE].push_back(neighbor(PNC, 115));
+    adjacency_list[PROGRESSIVE].push_back(neighbor(GAP, 225));
+
+    adjacency_list[GAP].push_back(neighbor(BUSCH, 310));
+    adjacency_list[GAP].push_back(neighbor(CELLULAR, 250));
+    adjacency_list[GAP].push_back(neighbor(PROGRESSIVE, 225));
+    adjacency_list[GAP].push_back(neighbor(PNC, 260));
+    adjacency_list[GAP].push_back(neighbor(TURNER, 375));
+    adjacency_list[GAP].push_back(neighbor(TROPICANA, 790));
+
+    adjacency_list[TURNER].push_back(neighbor(MARLINS, 600));
+    adjacency_list[TURNER].push_back(neighbor(RANGERS, 740));
+    adjacency_list[TURNER].push_back(neighbor(GAP, 375));
+    adjacency_list[TURNER].push_back(neighbor(CAMDEN, 560));
+    adjacency_list[TURNER].push_back(neighbor(NATIONALS, 560));
+
+    adjacency_list[TROPICANA].push_back(neighbor(MM, 790));
+    adjacency_list[TROPICANA].push_back(neighbor(MARLINS, 210));
+    adjacency_list[TROPICANA].push_back(neighbor(GAP, 790));
+
+    adjacency_list[MARLINS].push_back(neighbor(TURNER, 600));
+    adjacency_list[MARLINS].push_back(neighbor(MM, 965));
+    adjacency_list[MARLINS].push_back(neighbor(TROPICANA, 210));
+    adjacency_list[MARLINS].push_back(neighbor(FENWAY, 1255));
+    adjacency_list[MARLINS].push_back(neighbor(CAMDEN, 930));
+    adjacency_list[MARLINS].push_back(neighbor(NATIONALS, 930));
+
+    adjacency_list[PNC].push_back(neighbor(ROGERS, 225));
+    adjacency_list[PNC].push_back(neighbor(PROGRESSIVE, 115));
+    adjacency_list[PNC].push_back(neighbor(GAP, 260));
+    adjacency_list[PNC].push_back(neighbor(NATIONALS, 195));
+    adjacency_list[PNC].push_back(neighbor(CAMDEN, 195));
+    adjacency_list[PNC].push_back(neighbor(CITI, 315));
+    adjacency_list[PNC].push_back(neighbor(YANKEE, 315));
+
+    adjacency_list[FENWAY].push_back(neighbor(ROGERS, 430));
+    adjacency_list[FENWAY].push_back(neighbor(YANKEE, 195));
+    adjacency_list[FENWAY].push_back(neighbor(CITI, 195));
+    adjacency_list[FENWAY].push_back(neighbor(MARLINS, 1255));
+
+    adjacency_list[CBP].push_back(neighbor(YANKEE, 80));
+    adjacency_list[CBP].push_back(neighbor(CITI, 80));
+    adjacency_list[CBP].push_back(neighbor(CAMDEN, 90));
+    adjacency_list[CBP].push_back(neighbor(NATIONALS, 90));
+
+    adjacency_list[YANKEE].push_back(neighbor(CBP, 80));
+    adjacency_list[YANKEE].push_back(neighbor(PNC, 315));
+    adjacency_list[YANKEE].push_back(neighbor(FENWAY, 195));
+
+    adjacency_list[CITI].push_back(neighbor(CBP, 80));
+    adjacency_list[CITI].push_back(neighbor(PNC, 315));
+    adjacency_list[CITI].push_back(neighbor(FENWAY, 195));
+
+    adjacency_list[CAMDEN].push_back(neighbor(CBP, 90));
+    adjacency_list[CAMDEN].push_back(neighbor(PNC, 195));
+    adjacency_list[CAMDEN].push_back(neighbor(TURNER, 560));
+    adjacency_list[CAMDEN].push_back(neighbor(MARLINS, 930));
+
+    adjacency_list[NATIONALS].push_back(neighbor(CBP, 90));
+    adjacency_list[NATIONALS].push_back(neighbor(PNC, 195));
+    adjacency_list[NATIONALS].push_back(neighbor(TURNER, 560));
+    adjacency_list[NATIONALS].push_back(neighbor(MARLINS, 930));
+
+    //Menu for selecting a stadium to start at
+    do
+    {
+		cout << "\nPlease select a stadium to start at:\n\n";
+		for(i = 0; i < 30; i++)
+		{
+			cout << i+1 << ". "  << ballparks[i] << endl;
+		}
+		cout << "\nEnter Stadium #: ";
+		//cin >> FirstPick;
+
+		invalid = inputChecker(FirstPick, 30);
+    }while(invalid);
+    //Menu for selecting a stadium to end at
+    do
+
+    {
+  		cout << "Please select a stadium to end at:\n\n";
+  		for(j = 0; j < 30; j++)
+  		{
+  			cout << j+1 << ". "  << ballparks[j] << endl;
+
+  		}
+		cout << "\nEnter Stadium #: ";
+  		//cin >> SecondPick;
+
+  		invalid = inputChecker(SecondPick, 30);
+    }while(invalid);
+    //Fixes userChoice
+    --FirstPick;
+    --SecondPick;
+    //Preforms Dijkstras algorithm to find distance
+	vector<weight_t> min_distance;
+	vector<vertex_t> previous;
+    Dijkstra(FirstPick, adjacency_list, min_distance, previous);
+    cout << "\nThe distance from " << ballparks[FirstPick] << " to "
+    	 << ballparks[SecondPick] << " is " << min_distance[SecondPick]
+    	 << " miles.\n";
+    //Outputs path taken
+	list<vertex_t> path = Shortest(SecondPick, previous);
+    cout << "Path: ";
+	for (list<int>::iterator it = path.begin();
+				 it != path.end();
+				 it++)
+			{
+				cout << ballparks[*it] << ", ";
+			}
+			cout << endl << endl;
+}
+bool inputChecker(int &userChoice, int maxChoice)
+{
+	// VARIABLES
+	bool invalid;		// CALC - Main boolean for the function.
+	int shift;
+	if (!(cin >> userChoice))
+	{
+		// Clears the INPUT buffer.
+		cin.clear();
+		// Checks the max string size.
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		cout << endl;
+
+			cout << "\n***** Please input a NUMBER between 1 and ";
+			cout << maxChoice;
+			cout <<	"*****\n\n";
+
+
+
+		// PROCESS
+		invalid = true;
+
+	}// END OF IF STATEMENT
+
+	// ELSE IF STATEMENT - This statement is designed to check
+	//                     if the user INPUT is within the valid
+	//                     range of the program. If not  will
+	//                     OUTPUT error message.
+	else if (userChoice < 0 || userChoice > maxChoice)
+	{
+		// MOD - Determines the correct spacing for user INPUT.
+		shift = Spacing(userChoice);
+		cout << left;
+		cout << "\n**** The number ";
+
+		// IF STATEMENT - This selection statement is designed to
+		//                OUTPUT the correct spacing depending
+		//                on user INPUT.
+		if(userChoice < 0)
+		{
+			// MOD
+			cout << setw(shift + 2);
+			cout << userChoice << " is an invalid entry";
+			cout << right;
+			cout << setw(12 - (shift +2));
+		}
+		else
+		{
+			// MOD
+			cout << setw(shift + 1);
+			cout << userChoice << " is an invalid entry";
+			cout << right;
+			cout << setw(12 - (shift +1));
+		}
+
+		// OUTPUT
+		cout << "\n***** Please input a NUMBER between 1 and ";
+		cout << maxChoice;
+		cout <<	"*****\n\n";
+
+		// PROCESS
+		invalid = true;
+
+	}// END OF ELSE IF STATEMENT
+	return invalid;
+}

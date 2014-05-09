@@ -117,7 +117,7 @@ int main()
 
 				// CASE LEAGUETYPE
 				case DISTANCEMEASURE:
-					cout << "\nTO BE INCLUDED LATER!\n";
+					StoryTen();
 								break; // END OF CASE LEAGUETYPE
 
 				// CASE LEAGUETYPE

@@ -25,9 +25,13 @@
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <set>
+#include <utility>
+#include <iterator>
 #include "stadium.h"
 
-
+typedef int vertex_t;
+typedef double weight_t;
 using namespace std;
 
 // ENUMERATED TYPES
@@ -86,7 +90,39 @@ enum mainMenu
 	LEAGUEVISIT,
 	ADMINLOGIN
 };
-
+enum stad
+{
+	ATT,
+	OCO,
+	SAFECO,
+	DODGERS,
+	ANGELS,
+	CHASE,
+	PETCO,
+	COORS,
+	TARGET,
+	RANGERS,
+	MM,
+	ROYALS,
+	MILLER,
+	WRIGLEY,
+	CELLULAR,
+	BUSCH,
+	ROGERS,
+	COMERCIA,
+	PROGRESSIVE,
+	GAP,
+	TURNER,
+	TROPICANA,
+	MARLINS,
+	PNC,
+	FENWAY,
+	CBP,
+	YANKEE,
+	CITI,
+	CAMDEN,
+	NATIONALS
+};
 /**************************************************************************
 * CONSTANTS
 * ------------------------------------------------------------------------
@@ -100,6 +136,16 @@ const int NUM = 777;
 const string MAJOR = "Major";
 const string AMERICAN = "American";
 const string NATIONAL = "National";
+const weight_t max_weight = std::numeric_limits<double>::infinity();
+
+struct neighbor {
+    vertex_t target;
+    weight_t weight;
+    neighbor(vertex_t arg_target, weight_t arg_weight)
+        : target(arg_target), weight(arg_weight) { }
+};
+
+typedef std::vector<std::vector<neighbor> > adjacency_list_t;
 
 /*************************************************************************
 * PrintHeader
@@ -174,6 +220,13 @@ int Spacing (int input);
  * 	This function handles the menu for selecting sorting options
  *************************************************************************/
 void UserChoice(int &userChoice, int menuType, int maxMenu);
-
+void Dijkstra(vertex_t source,
+                          const adjacency_list_t &adjacency_list,
+                          std::vector<weight_t> &min_distance,
+                          std::vector<vertex_t> &previous);
+std::list<vertex_t> Shortest(
+    vertex_t vertex, const std::vector<vertex_t> &previous);
+bool inputChecker(int &userChoice, int maxChoice);
+void StoryTen();
 
 #endif /* HEADERFILE_H_ */
