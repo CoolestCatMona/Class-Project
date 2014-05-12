@@ -469,6 +469,7 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 							// REINITALIZE
 							j = 1;
 									break; // END OF CASE NATIONALLEAGUE
+									break; // END OF CASE AMERICANLEAGUE
 
 					// CASE DEFAULT - Default case.
 					default:
@@ -1118,4 +1119,547 @@ void tripPlannerSecondMenu(std::vector<stadium> &Stadiums, std::vector<string> &
 	distance+= connectDistances.at(newChoice-1);
 	// FUNCTION - RECURSION
 	tripPlannerSecondMenu(S, visits, distance);
+}
+void initializeStore(std::vector<item> &items)
+{
+	item cap;
+	item bat;
+	item pennant;
+	item baseball;
+
+	items.push_back(cap);
+	items.at(0).setItem("Baseball Cap");
+	items.at(0).setPrice(25.99);
+
+	items.push_back(bat);
+	items.at(1).setItem("Baseball Bat");
+	items.at(1).setPrice(35.35);
+
+	items.push_back(pennant);
+	items.at(2).setItem("Team Pennant");
+	items.at(2).setPrice(12.99);
+
+	items.push_back(cap);
+	items.at(3).setItem("Autographed Baseball");
+	items.at(3).setPrice(19.99);
+}
+void storeMenu(std::vector<item> &items)
+{
+	bool invalid = true;
+	int menuChoice;
+	do
+	{
+	cout << "1. Buy stuff!\n";
+	cout << "2. View Inventory\n";
+	cout << "3. Return\n";
+	cout << "Enter choice: ";
+	invalid = inputChecker(menuChoice, 3);
+	}while(invalid);
+	switch(menuChoice)
+	{
+	case 1:
+		accessStore(items);
+		break;
+	case 2:
+		accessInventory(items);
+		break;
+	case 3:
+		break;
+	default:
+		break;
+	}
+}
+void accessStore(std::vector<item> &items)
+{
+	int i;							//Int for looping
+	int size = items.size();
+	int userChoice;
+	bool again = true;
+	bool invalid = true;
+	int oldNum;						//Number of previously owned
+									//items of a certain type
+	cout << "\nWelcome to the store! Please make a purchase!\n\n";
+	do
+	{
+		//outputs menu
+		for(i = 0; i < size; i++)
+		{
+			cout << i+1 << ". " << items.at(i).getItem()
+					<< " -- $" << items.at(i).getPrice();
+			cout << endl;
+		}
+		cout << "Please select an item to buy: ";
+		invalid = inputChecker(userChoice, i);
+	}while(invalid);
+	cin.ignore(1000, '\n');
+	//decreases user choice
+	userChoice--;
+	cout << "\nYou have purchased a " << items.at(userChoice).getItem()
+		 << " for $" << items.at(userChoice).getPrice();
+
+	//Increases the number of items in possession by user
+	oldNum = items.at(userChoice).getNumber();
+	items.at(userChoice).setNumber(++oldNum);
+
+	//Checks to see if the user wants to buy more items
+	do
+	{
+	cout << "\nWould you like to continue shopping? (0 = yes 1 = no)";
+	again = inputChecker(userChoice, 1);
+	}while(again);
+
+	//Runs the function again
+	if(userChoice == 0)
+	{
+		accessStore(items);
+	}
+
+
+}
+void accessInventory(std::vector<item> &items)
+{
+	float total = 0;
+	int i;
+	int size = items.size();
+
+	cout << "You currently have the following items in your inventory:\n";
+	for(i = 0; i < size-1; i++)
+	{
+		if(items.at(i).getNumber() != 0)
+		{
+			cout << "You have " << items.at(i).getNumber()
+				 << ' ' << items.at(i).getItem() <<'s';
+			total = total + (items.at(i).getNumber() * items.at(i).getPrice());
+			cout << endl;
+		}
+	}
+	if(total == 0)
+	{
+		cout << "You have no items!\n";
+	}
+	else
+	{
+		cout << "You have spent a total of $" << total << endl;
+	}
+	cin.ignore(1000, '\n');
+	cout << "\n*Press ENTER to return*\n";
+	cin.get();
+
+}
+void adminStorePanel(std::vector<item> &items)
+{
+	bool invalid = true;
+	int menuChoice;
+	do
+	{
+	cout << "1. Add Item\n";
+	cout << "2. Delete Item\n";
+	cout << "3. Modify Existing item\n";
+	cout << "4. Return\n";
+	cout << "Enter choice: ";
+	invalid = inputChecker(menuChoice, 4);
+	}while(invalid);
+	switch(menuChoice)
+	{
+	case 1:
+		adminAddItem(items);
+		break;
+	case 2:
+		adminDeleteItem(items);
+		break;
+	case 3:
+		adminModifyItem(items);
+		break;
+	case 4:
+		break;
+	default:
+		break;
+	}
+}
+void adminAddItem(std::vector<item> &items)
+{
+	item newItem;				//Creates a new item
+	string itemName;			//Name of the new item
+	float itemPrice;			//Price for the item
+
+	cin.ignore(1000,'\n');
+	//Asks user for the name of the new item
+	cout << "Please enter a name for this Item: ";
+	getline(cin, itemName);
+	//Asks user for
+	cout << "\nPlease enter a price for this Item: ";
+	cin >> itemPrice;
+
+	//Actually adds the item to the vector
+	items.push_back(newItem);
+	items.back().setItem(itemName);
+	items.back().setPrice(itemPrice);
+
+	//Informs the user of the details of the item they added
+	cout << "You have added " << items.back().getItem()
+		 << " at $" << items.back().getPrice();
+
+	cout << "\n\n*Press ENTER to return*\n";
+	cin.get();
+}
+void adminDeleteItem(std::vector<item> &items)
+{
+	int i;								//CALC - Int for looping
+	int size = items.size();			//CALC - Size of vector
+	bool invalid = true;				//CALC - Error Checking
+	int userChoice;						//IN   - User input
+
+	//Loops the menu
+	do
+	{
+		//Outputs the menu
+		for(i = 0; i < size; i++)
+		{
+			cout << i+1 << ". " << items.at(i).getItem()
+					<< " -- $" << items.at(i).getPrice();
+			cout << endl;
+		}
+		//prompts user to remove an item
+		cout << "Please select an item to remove: ";
+		invalid = inputChecker(userChoice, size);
+	}while(invalid);
+	cin.ignore(1000, '\n');
+	//erases item
+	cout << "Erasing " << items.at(userChoice-1).getItem();
+	items.erase(items.begin()+userChoice-1);
+
+	cout << "\n\n*Press ENTER to return*\n";
+	cin.get();
+}
+void adminModifyItem(std::vector<item> &items)
+{
+	int i;								//CALC - Int for looping
+	int size = items.size();			//CALC - Size of vector
+	bool invalid = true;				//CALC - Error Checking
+	int userChoice;						//IN   - User input
+	string itemName;
+	int itemPrice;
+
+	cin.ignore(1000, '\n');
+	//Loops the menu
+	do
+	{
+		//Outputs the menu
+		for(i = 0; i < size; i++)
+		{
+			cout << i+1 << ". " << items.at(i).getItem()
+					<< " -- $" << items.at(i).getPrice();
+			cout << endl;
+		}
+		//prompts user to remove an item
+		cout << "Please select an item to Modify: ";
+		invalid = inputChecker(userChoice, size);
+	}while(invalid);
+	//decreases i
+	++i;
+	//Asks user for the name of the new item
+	cout << "\nPlease enter a new name for this Item: ";
+	getline(cin, itemName);
+	//Asks user for price of new item
+	cout << "\nPlease enter a new price for this Item: ";
+	cin >> itemPrice;
+	//sets name and price
+	items.at(i).setItem(itemName);
+	items.at(i).setPrice(itemPrice);
+
+	//Informs the user of the details of the item they modified
+	cout << "You have changed the item to  " << items.at(i).getItem()
+		 << " at $" << items.at(i).getPrice();
+
+	cout << "\n\n*Press ENTER to return*\n";
+	cin.get();
+}
+void LeagueVisit(std::vector<stadium> &Stadiums)
+{
+	int leagueChoice;					//Choice of league
+	bool invalid = true;				//CALC - Error checking
+	//Loops the menu
+	do
+	{
+		cout << "\n0. Back\n1. American\n2.National\n";
+		cout << "Please Select a League: \n";
+		invalid = inputChecker(leagueChoice, 2);
+	}while(invalid);
+	if(leagueChoice != 0)
+	{
+		startingStadium(Stadiums, leagueChoice);
+	}
+
+}
+void startingStadium(std::vector<stadium> &Stadiums, int League)
+{
+	string leagueName;						//CALC - NAME OF LEAGUE
+	int i = 0;								//CALC - Int for looping
+	int j = 0;								//CALC - int for looping
+	int end = 0;							//CALC - int for looping
+	string caliStadiums[15];				//CALC - Array holding stadium
+											//names
+	int stadStart;							//IN   - Stadium to start at
+	bool invalid;							//CALC - Error checking
+	//Switches league to assign a league
+	switch(League)
+	{
+	case 1:
+		leagueName = "American";
+		break;
+	case 2:
+		leagueName = "National";
+		break;
+	default:
+		break;
+	}
+	//Assigns menu options based on user choice of American or National
+	for(i = 0; i < Stadiums.size(); i++)
+	{
+		if(leagueName == "American")
+		{
+			if(Stadiums.at(i).getState() == "CA" &&
+			   Stadiums.at(i).getLeague() == AMERICAN)
+			{
+				++end;
+				caliStadiums[j] = Stadiums.at(i).getStadium();
+				++j;
+			}
+		}
+		else
+		{
+			if(Stadiums.at(i).getState() == "CA" &&
+			   Stadiums.at(i).getLeague() == NATIONAL)
+			{
+				++end;
+				caliStadiums[j] = Stadiums.at(i).getStadium();
+				++j;
+			}
+		}
+
+	}
+
+	//outputs menu
+	cout << "\nPlease Select a Stadium to begin at:\n";
+	do
+	{
+		for(i = 0; i < end; i++)
+		{
+			cout << i << ". " << caliStadiums[i] << endl;
+		}
+		invalid = inputChecker(stadStart, end-1);
+	}while(invalid);
+
+}
+void adminStadiumMenu(std::vector<stadium> &Stadiums)
+{
+	bool invalid = true;
+		int menuChoice;
+		do
+		{
+		cout << "1. Modify Stadium Info\n";
+		cout << "2. Add Stadiums\n";
+		cout << "3. Return\n";
+		cout << "Enter choice: ";
+		invalid = inputChecker(menuChoice, 3);
+		}while(invalid);
+		switch(menuChoice)
+		{
+		case 1:
+			ModifyStadium(Stadiums);
+			break;
+		case 2:
+			AddNewStadium(Stadiums);
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
+}
+void ModifyStadium(std::vector<stadium> &Stadiums)
+{
+	int i;								//int for looping
+	bool invalid = true;				//error checking
+	int userChoice;
+	do
+	{
+	for(i = 0; i < Stadiums.size(); i++)
+	{
+		cout << i+1 << ". " << Stadiums.at(i).getStadium() << endl;
+	}
+	cout << "\nPlease select a stadium to modify: ";
+	invalid = inputChecker(userChoice, Stadiums.size());
+	}while(invalid);
+	--userChoice;
+	Modify(userChoice, Stadiums);
+}
+void Modify(int i, std::vector<stadium> &Stadiums)
+{
+	string newStadium;						//IN - Stadium
+	string newLeague;						//IN - League
+	string newTeam;							//IN - Team Name
+	int leagueType;							//IN - League Type
+	bool invalid = true;					//Error checking
+
+	//Clears input buffer to avoid errors
+	cin.ignore(1000, '\n');
+	cout << "\nPlease enter a new Name for this stadium: ";
+	getline(cin, newStadium);
+	do{
+	cout << "\nPlease enter a new League for"
+			" this stadium (0 = American 1 = National: ";
+	invalid = inputChecker(leagueType, 1);
+	}while(invalid);
+	//clears input buffer
+	cin.ignore(1000, '\n');
+	cout << "\nPlease enter a new Team Name for this stadium: ";
+	getline(cin, newTeam);
+
+	//Sets league type
+	if(leagueType == 0)
+	{
+		newLeague = AMERICAN;
+	}
+	else
+	{
+		newLeague = NATIONAL;
+	}
+
+	cout << "\n\nOLD INFORMATION:";
+	cout << "\nSTADIUM NAME: " << Stadiums.at(i).getStadium();
+	cout << "\nLEAGUE: " << Stadiums.at(i).getLeague();
+	cout << "\nTEAM NAME: " << Stadiums.at(i).getTeam();
+
+	//Modifys stadium info
+	Stadiums.at(i).setStadium(newStadium);
+	Stadiums.at(i).setLeague(newLeague);
+	Stadiums.at(i).setTeam(newTeam);
+
+	cout << "\n\nNEW INFORMATION:";
+	cout << "\nSTADIUM NAME: " << Stadiums.at(i).getStadium();
+	cout << "\nLEAGUE: " << Stadiums.at(i).getLeague();
+	cout << "\nTEAM NAME: " << Stadiums.at(i).getTeam();
+
+	cout << "\n*Press ENTER to Continue*\n";
+	cin.get();
+}
+void AddNewStadium(std::vector<stadium> &Stadiums)
+{
+	string newStadium;					//IN - Name
+	string newLeague;					//IN - League
+	string newTeam;						//IN - Team Name
+	int leagueType;						//IN - Type of League
+	bool invalid = true;
+
+	//Creates a new stadium to be added
+	stadium T;
+
+	//Clears input buffer to avoid errors
+	cin.ignore(1000, '\n');
+	cout << "\nPlease enter a new Name for this stadium: ";
+	getline(cin, newStadium);
+	do{
+	cout << "\nPlease enter a new League for"
+			" this stadium (0 = American 1 = National: ";
+	invalid = inputChecker(leagueType, 1);
+	}while(invalid);
+	//clears input buffer
+	cin.ignore(1000, '\n');
+	cout << "\nPlease enter a new Team Name for this stadium: ";
+	getline(cin, newTeam);
+
+	//Sets league type
+	if(leagueType == 0)
+	{
+		newLeague = AMERICAN;
+	}
+	else
+	{
+		newLeague = NATIONAL;
+	}
+
+	//Adds the stadium to the vector
+	Stadiums.push_back(T);
+	Stadiums.back().setStadium(newStadium);
+	Stadiums.back().setLeague(newLeague);
+	Stadiums.back().setTeam(newTeam);
+	Stadiums.back().setCity("Somewheresville");
+	Stadiums.back().setState("CA");
+	Stadiums.back().setDay(11);
+	Stadiums.back().setMonth(5);
+	Stadiums.back().setYear(2014);
+
+	cout << "\n\nSTADIUM INFORMATION:";
+	cout << "\nSTADIUM NAME: " << Stadiums.back().getStadium();
+	cout << "\nLEAGUE: " << Stadiums.back().getLeague();
+	cout << "\nTEAM NAME: " << Stadiums.back().getTeam();
+
+	cout << "\n*Press ENTER to Continue*\n";
+	cin.get();
+}
+void readInto(std::vector<stadium> &Stadiums)
+{
+	ofstream file;						//OUTPUT file
+	int i;								//Integer for looping
+	int j;
+	vector<string> connections;			//Vector containing connections
+	vector<int> connectionsD;			//Vector containing distances
+	int size = Stadiums.size();			//Size of vector
+
+	//Opens file to write to
+	file.open("IFile.txt");
+	//writes information to file
+	for(i = 0; i < size; i++)
+	{
+		file << Stadiums.at(i).getLeague() << endl;
+		file << Stadiums.at(i).getStadium() << endl;
+		file << Stadiums.at(i).getTeam() << endl;
+		file << Stadiums.at(i).getCity() << endl;
+		file << Stadiums.at(i).getState() << endl;
+		file << Stadiums.at(i).getDay() << endl;
+		file << Stadiums.at(i).getMonth() << endl;
+		file << Stadiums.at(i).getYear() << endl;
+		file << Stadiums.at(i).getSurface() << endl;
+		connections = Stadiums.at(i).getConnect();
+		for(j = 0; j < connections.size(); j++)
+		{
+			file << connections.at(j) << ',';
+		}
+		file << endl;
+		connectionsD = Stadiums.at(i).getConnectD();
+		for(j = 0; j < connections.size(); j++)
+		{
+			file << connectionsD.at(j) << ',';
+		}
+		if(i != size)
+		{
+			file << endl << endl;
+		}
+	}
+}
+void adminMenu(std::vector<stadium> &Stadiums, std::vector<item> &items)
+{
+	bool invalid = true;
+	int menuChoice;
+	do{
+	cout << "\n1. Add/Delete/Change Stadium Info."
+			"\n2. Add/Delete/Change Store Info."
+			"\n3. Back\n";
+	cout << "Please Select an option: ";
+	invalid = inputChecker(menuChoice, 3);
+	}while(invalid);
+	switch(menuChoice)
+	{
+	case 1:
+		adminStadiumMenu(Stadiums);
+		break;
+	case 2:
+		adminStorePanel(items);
+		break;
+	case 3:
+		break;
+	default:
+		break;
+	}
 }

@@ -1,5 +1,6 @@
 #include "headerfile.h"
 #include "stadium.h"
+#include "store.h"
 
 //right-click the project and go to "Properties"
 //C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Miscellaneous -> Other Flags. Put -std=c++0x at the end
@@ -8,10 +9,10 @@ int main()
 	int userChoice;			// IN           - User(s) menu selection
 	int mainChoice;			// IN			- User(s) main menu selection
 	int adminLogin;			// IN 			- User(s) admin menu selection
-	ifstream adminFile;
-	adminFile.open("AdminInfo.txt");		//CALC - Opens input file
 	menu userSelection; 	//                INPUT (ENUM TYPE).
 	mainMenu mainSelection; //				  INPUT (ENUM TYPE).
+	ifstream adminFile;
+	adminFile.open("AdminInfo.txt");		//CALC - Opens input file
 	string username;
 	string password;
 	string seanUsername;
@@ -20,10 +21,13 @@ int main()
 	string stevenPassword;
 	bool validLogin;		// CALC - Checks if adminLogin is valid
 
-	validLogin = false;
 	srand(time(0));
 	//Creates a vector containing the stadium class
 	vector<stadium> S;
+	//Creates a vector containing all items avaliable to purchase
+	vector<item> I;
+	//initializes items;
+	initializeStore(I);
 	//Reads input into the vector
 	readInput(S);
 
@@ -130,8 +134,8 @@ int main()
 
 				// CASE SOUVENIRSHOP
 				case SOUVENIRSHOP:
-					cout << "\nTO BE INCLUDED LATER!\n";
-					//SORT function to sort the vector by stadium
+					storeMenu(I);
+
 								break; // END OF CASE GRASSTOP
 
 				// CASE DISTANCE MEASURE
@@ -141,12 +145,11 @@ int main()
 
 				// CASE LEAGUEVISIT
 				case LEAGUEVISIT:
-					cout << "\nTO BE INCLUDED LATER!\n";
+					LeagueVisit(S);
 								break; // END OF CASE LEAGUETYPE
 
 				// CASE ADMINLOGIN
 				case ADMINLOGIN:
-
 					if (validLogin == true)
 					{
 						cout << "\nYou are already logged in " << username << endl;
@@ -187,10 +190,10 @@ int main()
 
 							}
 						} // END OF IF STATEMENT
+						adminMenu(S, I);
 					}
 
-
-								break; // END OF CASE LEAGUETYPE
+					break; // END OF CASE LEAGUETYPE
 
 				// CASE DEFAULT - Default case.
 				default:
@@ -203,10 +206,7 @@ int main()
 
 			// PROCESS
 			mainSelection = mainMenu(mainChoice);
-
 		}
-//
-//	OutputMLG(S);
-//	cout << S.size();
+	readInto(S);
 	return 0;
 }

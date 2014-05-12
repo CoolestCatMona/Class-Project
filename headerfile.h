@@ -29,6 +29,7 @@
 #include <utility>
 #include <iterator>
 #include "stadium.h"
+#include "store.h"
 
 typedef int vertex_t;
 typedef double weight_t;
@@ -283,5 +284,20 @@ void tripPlanner(std::vector<stadium> &Stadiums);
  * 	option
  *************************************************************************/
 void tripPlannerSecondMenu(std::vector<stadium> &Stadiums, std::vector<string> &visits, int distance);
-
+void initializeStore(std::vector<item> &items);
+void accessStore(std::vector<item> &items);
+void accessInventory(std::vector<item> &items);
+void adminStorePanel(std::vector<item> &items);
+void adminAddItem(std::vector<item> &items);
+void adminDeleteItem(std::vector<item> &items);
+void adminModifyItem(std::vector<item> &items);
+void storeMenu(std::vector<item> &items);
+void startingStadium(std::vector<stadium> &Stadiums, int League);
+void LeagueVisit(std::vector<stadium> &Stadiums);
+void adminStadiumMenu(std::vector<stadium> &Stadiums);
+void ModifyStadium(std::vector<stadium> &Stadiums);
+void Modify(int i, std::vector<stadium> &Stadiums);
+void AddNewStadium(std::vector<stadium> &Stadiums);
+void readInto(std::vector<stadium> &Stadiums);
+void adminMenu(std::vector<stadium> &Stadiums, std::vector<item> &items);
 #endif /* HEADERFILE_H_ */

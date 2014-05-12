@@ -24,7 +24,7 @@ void UserChoice(int &userChoice, int menuType, int maxChoice) // IN  - User(s) d
 	string grassSub;	// OUT  - Grass Type Submenu
 	string leagueSub;   // OUT  - League Type Submenu
 	string mainMenu;	// OUT  - Main Menu of the Program
-	string adminLogin;  // OUT  - Admin menu of the Program
+	string adminLogin; 	// OUT - Admin menu of the Program
 
 	// INITIALIZE
 	stadiumMenu = { "\nStadium Finder\n"
@@ -60,10 +60,9 @@ void UserChoice(int &userChoice, int menuType, int maxChoice) // IN  - User(s) d
 				"Enter a command (0 to exit): "};
 
 	adminLogin = {"\nAdmin Login\n"
-					"1 - Proceed to Login\n"
-					"0 - BACK\n"
-					"Enter a command (0 to Return to Previous Menu): "};
-
+						"1 - Proceed to Login\n"
+						"0 - BACK\n"
+						"Enter a command (0 to Return to Previous Menu): "};
 	// MENU DO-WHILE LOOP - This loop is designed to OUTPUT the menu
 	//                      choices for the user.
 	do
@@ -92,7 +91,6 @@ void UserChoice(int &userChoice, int menuType, int maxChoice) // IN  - User(s) d
 		{
 			cout << adminLogin;
 		}
-
 		// IF STATEMENT - This statement is designed to check the
 		//                user INPUT is a character and OUTPUT an
 		//                error code.
