@@ -7,14 +7,32 @@ int main()
 {
 	int userChoice;			// IN           - User(s) menu selection
 	int mainChoice;			// IN			- User(s) main menu selection
+	int adminLogin;			// IN 			- User(s) admin menu selection
+	ifstream adminFile;
+	adminFile.open("AdminInfo.txt");		//CALC - Opens input file
 	menu userSelection; 	//                INPUT (ENUM TYPE).
 	mainMenu mainSelection; //				  INPUT (ENUM TYPE).
+	string username;
+	string password;
+	string seanUsername;
+	string seanPassword;
+	string stevenUsername;
+	string stevenPassword;
+	bool validLogin;		// CALC - Checks if adminLogin is valid
 
+	validLogin = false;
 	srand(time(0));
 	//Creates a vector containing the stadium class
 	vector<stadium> S;
 	//Reads input into the vector
 	readInput(S);
+
+	getline(adminFile, stevenUsername);
+	getline(adminFile, stevenPassword);
+	getline(adminFile, seanUsername);
+	getline(adminFile, seanPassword);
+
+	adminFile.close();
 
 	// FUNCTION mainChoice - This function is designed to DISPLAY
 	//                           the main menu to the user(s).
@@ -128,7 +146,50 @@ int main()
 
 				// CASE ADMINLOGIN
 				case ADMINLOGIN:
-					cout << "\nTO BE INCLUDED LATER!\n";
+
+					if (validLogin == true)
+					{
+						cout << "\nYou are already logged in " << username << endl;
+					}
+					else
+					{
+						// USER INPUT - Input
+						UserChoice(adminLogin, 4, 1);
+
+						// CHECK IF USER WISHED TO PROCEED TO LOGIN
+						if(adminLogin == 1)
+						{
+
+							while(validLogin == false)
+							{
+								cin.ignore(1000, '\n');
+								cout << "\nEnter Username(Case Sensitive): ";
+								getline(cin, username);
+
+
+								cout << "\nEnter Password(Case Sensitive): ";
+								getline(cin, password);
+
+
+								if((username == seanUsername && password == seanPassword)||
+								   (username == stevenUsername && password == stevenPassword))
+								{
+									cout << "\nWelcome " << username << endl;
+									validLogin = true;
+									break;
+								}
+								else
+								{
+									cout << "\nInvalid Login Information, please try again.\n";
+								}
+								// USER INPUT - Input
+								UserChoice(adminLogin, 4, 1);
+
+							}
+						} // END OF IF STATEMENT
+					}
+
+
 								break; // END OF CASE LEAGUETYPE
 
 				// CASE DEFAULT - Default case.
