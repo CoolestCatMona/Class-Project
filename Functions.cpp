@@ -469,7 +469,6 @@ void OutputMLG(std::vector<stadium> Stadiums, int sortType)
 							// REINITALIZE
 							j = 1;
 									break; // END OF CASE NATIONALLEAGUE
-									break; // END OF CASE AMERICANLEAGUE
 
 					// CASE DEFAULT - Default case.
 					default:
