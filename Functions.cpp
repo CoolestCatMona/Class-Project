@@ -766,6 +766,230 @@ void StoryTen()
 			}
 			cout << endl << endl;
 }
+void initializeStore(std::vector<item> &items)
+{
+	item cap;
+	item bat;
+	item pennant;
+	item baseball;
+
+	items.push_back(cap);
+	items.at(0).setItem("Baseball Cap");
+	items.at(0).setPrice(25.99);
+
+	items.push_back(bat);
+	items.at(1).setItem("Baseball Bat");
+	items.at(1).setPrice(35.35);
+
+	items.push_back(pennant);
+	items.at(2).setItem("Team Pennant");
+	items.at(2).setPrice(12.99);
+
+	items.push_back(cap);
+	items.at(3).setItem("Autographed Baseball");
+	items.at(3).setPrice(19.99);
+}
+void accessStore(std::vector<item> &items)
+{
+	int i;							//Int for looping
+	int size = items.size();
+	int userChoice;
+	bool again = true;
+	bool invalid = true;
+	int oldNum;						//Number of previously owned
+									//items of a certain type
+	cout << "\nWelcome to the store! Please make a purchase!\n\n";
+	do
+	{
+		//outputs menu
+		for(i = 1; i < size-1; i++)
+		{
+			cout << i << ". " << items.at(i-1).getItem()
+					<< " -- $" << items.at(i-1).getPrice();
+			cout << endl;
+		}
+		cout << "Please select an item to buy: ";
+		invalid = inputChecker(userChoice, i);
+	}while(invalid);
+	//decreases user choice
+	userChoice--;
+	cout << "You have purchased a " <<items.at(userChoice).getItem()
+		 << " for $" << items.at(userChoice).getPrice();
+
+	//Increases the number of items in possession by user
+	oldNum = items.at(userChoice).getNumber();
+	items.at(userChoice).setNumber(oldNum++);
+
+	//Checks to see if the user wants to buy more items
+	do
+	{
+	cout << "\nWould you like to continue shopping? (0 = yes 1 = no)";
+	again = inputChecker(userChoice, 1);
+	}while(again);
+
+	//Runs the function again
+	if(userChoice == 0)
+	{
+		accessStore(items);
+	}
+
+
+}
+void accessInventory(std::vector<item> &items)
+{
+	float total = 0;
+	int i;
+	int size = items.size();
+	cout << "You currently have the following items in your inventory:\n";
+	for(i = 0; i < size-1; i++)
+	{
+		if(items.at(i).getNumber != 0)
+		{
+			cout << "You have " << items.at(i).getNumber
+				 << ' ' << items.at(i).getItem() <<'s';
+			total = total + (items.at(i).getNumber() * items.at(i).getPrice());
+			cout << endl;
+		}
+	}
+	if(total == 0)
+	{
+		cout << "You have no items!\n";
+	}
+	else
+	{
+		cout << "You have spent a total of $" << total << endl;
+	}
+
+	cout << "*Press ENTER to return*\n";
+	cin.get();
+
+}
+void adminStorePanel(std::vector<item> &items)
+{
+	bool invalid = true;
+	int menuChoice;
+	do
+	{
+	cout << "0. Return\n";
+	cout << "1. Add Item\n";
+	cout << "2. Delete Item\n";
+	cout << "3. Modify Existing item\n";
+	cout << "Enter choice: ";
+	invalid = inputChecker(menuChoice, 3);
+	}while(invalid);
+	switch(menuChoice)
+	{
+	case 0:
+		break;
+	case 1:
+		adminAddItem(items);
+		break;
+	case 2:
+		adminDeleteItem(items);
+		break;
+	case 3:
+		adminModifyItem(items);
+		break;
+	default:
+		break;
+	}
+}
+void adminAddItem(std::vector<item> &items)
+{
+	item newItem;				//Creates a new item
+	string itemName;			//Name of the new item
+	float itemPrice;			//Price for the item
+	int i;
+	//Asks user for the name of the new item
+	cout << "Please enter a name for this Item: ";
+	getline(cin, itemName);
+	//Asks user for
+	cout << "\nPlease enter a price for this Item: ";
+	cin >> itemPrice;
+
+	//Actually adds the item to the vector
+	items.push_back(newItem);
+	i = items.end();
+	items.at(i).setItem(itemName);
+	items.at(i).setPrice(itemPrice);
+
+	//Informs the user of the details of the item they added
+	cout << "You have added " << items.at(i).getItem
+		 << " at $" << items.at(i).getPrice();
+
+	cout << "\n\n*Press ENTER to return*\n";
+	cin.get();
+}
+void adminDeleteItem(std::vector<item> &items)
+{
+	int i;								//CALC - Int for looping
+	int size = items.size();			//CALC - Size of vector
+	bool invalid = true;				//CALC - Error Checking
+	int userChoice;						//IN   - User input
+
+	//Loops the menu
+	do
+	{
+		//Outputs the menu
+		for(i = 1; i < size; i++)
+		{
+			cout << i << ". " << items.at(i-1).getItem()
+					<< " -- $" << items.at(i-1).getPrice();
+			cout << endl;
+		}
+		//prompts user to remove an item
+		cout << "Please select an item to remove: ";
+		invalid = inputChecker(userChoice, size);
+	}while(invalid);
+	//erases item
+	cout << "Erasing " << items.at(userChoice-1).getItem();
+	items.erase(items.begin()+userChoice);
+
+	cout << "\n\n*Press ENTER to return*\n";
+	cin.get();
+}
+void adminModifyItem(std::vector<item> &items)
+{
+	int i;								//CALC - Int for looping
+	int size = items.size();			//CALC - Size of vector
+	bool invalid = true;				//CALC - Error Checking
+	int userChoice;						//IN   - User input
+	string itemName;
+	int itemPrice;
+
+	//Loops the menu
+	do
+	{
+		//Outputs the menu
+		for(i = 1; i < size; i++)
+		{
+			cout << i << ". " << items.at(i-1).getItem()
+					<< " -- $" << items.at(i-1).getPrice();
+			cout << endl;
+		}
+		//prompts user to remove an item
+		cout << "Please select an item to Modify: ";
+		invalid = inputChecker(userChoice, size);
+	}while(invalid);
+	//decreases i
+	i--;
+	//Asks user for the name of the new item
+	cout << "\nPlease enter a new name for this Item: ";
+	getline(cin, itemName);
+	//Asks user for price of new item
+	cout << "\nPlease enter a new price for this Item: ";
+	cin >> itemPrice;
+	//sets name and price
+	items.at(i).setItem(itemName);
+	items.at(i).setPrice(itemPrice);
+
+	//Informs the user of the details of the item they modified
+	cout << "You have changed the item to  " << items.at(i).getItem
+		 << " at $" << items.at(i).getPrice();
+
+	cout << "\n\n*Press ENTER to return*\n";
+	cin.get();
+}
 bool inputChecker(int &userChoice, int maxChoice)
 {
 	// VARIABLES
