@@ -55,6 +55,12 @@ void readInput(std::vector<stadium> &Stadiums)
 		Stadiums.at(i).setSurface(surface);
 		//Moves to a new line
 		file.ignore(1000, '\n');
+		//Sets CONNECTIONS
+		getline(file, string);
+		Stadiums.at(i).setConnect(string);
+		//Sets CONNECTION DISTANCES
+		getline(file, string);
+		Stadiums.at(i).setConnectD(string);
 		file.ignore(1000, '\n');
 		//Increases i
 		i++;
@@ -562,11 +568,13 @@ void StoryTen()
     adjacency_list[ATT].push_back(neighbor(DODGERS, 340));
     adjacency_list[ATT].push_back(neighbor(ANGELS, 340));
     adjacency_list[ATT].push_back(neighbor(CHASE, 650));
+    adjacency_list[ATT].push_back(neighbor(OCO, 38));
 
     adjacency_list[OCO].push_back(neighbor(SAFECO, 680));
     adjacency_list[OCO].push_back(neighbor(DODGERS, 340));
     adjacency_list[OCO].push_back(neighbor(ANGELS, 340));
     adjacency_list[OCO].push_back(neighbor(CHASE, 650));
+    adjacency_list[OCO].push_back(neighbor(ATT, 38));
 
     adjacency_list[SAFECO].push_back(neighbor(ATT, 680));
     adjacency_list[SAFECO].push_back(neighbor(OCO, 680));
@@ -577,11 +585,13 @@ void StoryTen()
     adjacency_list[DODGERS].push_back(neighbor(ATT, 340));
     adjacency_list[DODGERS].push_back(neighbor(OCO, 340));
     adjacency_list[DODGERS].push_back(neighbor(PETCO, 110));
+    adjacency_list[DODGERS].push_back(neighbor(ANGELS, 30));
 
     adjacency_list[ANGELS].push_back(neighbor(TARGET, 1500));
     adjacency_list[ANGELS].push_back(neighbor(ATT, 340));
     adjacency_list[ANGELS].push_back(neighbor(OCO, 340));
     adjacency_list[ANGELS].push_back(neighbor(PETCO, 110));
+    adjacency_list[ANGELS].push_back(neighbor(DODGERS, 30));
 
     adjacency_list[CHASE].push_back(neighbor(ATT, 650));
     adjacency_list[CHASE].push_back(neighbor(OCO, 650));
@@ -632,10 +642,12 @@ void StoryTen()
     adjacency_list[WRIGLEY].push_back(neighbor(MILLER, 80));
     adjacency_list[WRIGLEY].push_back(neighbor(COMERCIA, 240));
     adjacency_list[WRIGLEY].push_back(neighbor(ROYALS, 415));
+    adjacency_list[WRIGLEY].push_back(neighbor(CELLULAR, 9));
 
     adjacency_list[CELLULAR].push_back(neighbor(MILLER, 80));
     adjacency_list[CELLULAR].push_back(neighbor(COMERCIA, 240));
     adjacency_list[CELLULAR].push_back(neighbor(ROYALS, 415));
+    adjacency_list[CELLULAR].push_back(neighbor(WRIGLEY, 9));
 
     adjacency_list[BUSCH].push_back(neighbor(TARGET, 465));
     adjacency_list[BUSCH].push_back(neighbor(ROYALS, 235));
@@ -702,31 +714,36 @@ void StoryTen()
     adjacency_list[YANKEE].push_back(neighbor(CBP, 80));
     adjacency_list[YANKEE].push_back(neighbor(PNC, 315));
     adjacency_list[YANKEE].push_back(neighbor(FENWAY, 195));
+    adjacency_list[YANKEE].push_back(neighbor(CITI, 10));
 
     adjacency_list[CITI].push_back(neighbor(CBP, 80));
     adjacency_list[CITI].push_back(neighbor(PNC, 315));
     adjacency_list[CITI].push_back(neighbor(FENWAY, 195));
+    adjacency_list[CITI].push_back(neighbor(YANKEE, 10));
 
     adjacency_list[CAMDEN].push_back(neighbor(CBP, 90));
     adjacency_list[CAMDEN].push_back(neighbor(PNC, 195));
     adjacency_list[CAMDEN].push_back(neighbor(TURNER, 560));
     adjacency_list[CAMDEN].push_back(neighbor(MARLINS, 930));
+    adjacency_list[CAMDEN].push_back(neighbor(NATIONALS, 8));
 
     adjacency_list[NATIONALS].push_back(neighbor(CBP, 90));
     adjacency_list[NATIONALS].push_back(neighbor(PNC, 195));
     adjacency_list[NATIONALS].push_back(neighbor(TURNER, 560));
     adjacency_list[NATIONALS].push_back(neighbor(MARLINS, 930));
+    adjacency_list[NATIONALS].push_back(neighbor(CAMDEN, 8));
 
     //Menu for selecting a stadium to start at
     do
     {
-		cout << "\nPlease select a stadium to start at:\n\n";
+		cout << "\nPlease select a stadium to start at: \n\n";
 		for(i = 0; i < 30; i++)
 		{
 			cout << i+1 << ". "  << ballparks[i] << endl;
 		}
-		cout << "\nEnter Stadium #: ";
-		//cin >> FirstPick;
+		cout << "\nEnter Stadium #:  ";
+
+//		cin >> FirstPick;
 
 		invalid = inputChecker(FirstPick, 30);
     }while(invalid);
@@ -741,7 +758,7 @@ void StoryTen()
 
   		}
 		cout << "\nEnter Stadium #: ";
-  		//cin >> SecondPick;
+//  		cin >> SecondPick;
 
   		invalid = inputChecker(SecondPick, 30);
     }while(invalid);
@@ -766,234 +783,12 @@ void StoryTen()
 			}
 			cout << endl << endl;
 }
-void initializeStore(std::vector<item> &items)
-{
-	item cap;
-	item bat;
-	item pennant;
-	item baseball;
-
-	items.push_back(cap);
-	items.at(0).setItem("Baseball Cap");
-	items.at(0).setPrice(25.99);
-
-	items.push_back(bat);
-	items.at(1).setItem("Baseball Bat");
-	items.at(1).setPrice(35.35);
-
-	items.push_back(pennant);
-	items.at(2).setItem("Team Pennant");
-	items.at(2).setPrice(12.99);
-
-	items.push_back(cap);
-	items.at(3).setItem("Autographed Baseball");
-	items.at(3).setPrice(19.99);
-}
-void accessStore(std::vector<item> &items)
-{
-	int i;							//Int for looping
-	int size = items.size();
-	int userChoice;
-	bool again = true;
-	bool invalid = true;
-	int oldNum;						//Number of previously owned
-									//items of a certain type
-	cout << "\nWelcome to the store! Please make a purchase!\n\n";
-	do
-	{
-		//outputs menu
-		for(i = 1; i < size-1; i++)
-		{
-			cout << i << ". " << items.at(i-1).getItem()
-					<< " -- $" << items.at(i-1).getPrice();
-			cout << endl;
-		}
-		cout << "Please select an item to buy: ";
-		invalid = inputChecker(userChoice, i);
-	}while(invalid);
-	//decreases user choice
-	userChoice--;
-	cout << "You have purchased a " <<items.at(userChoice).getItem()
-		 << " for $" << items.at(userChoice).getPrice();
-
-	//Increases the number of items in possession by user
-	oldNum = items.at(userChoice).getNumber();
-	items.at(userChoice).setNumber(oldNum++);
-
-	//Checks to see if the user wants to buy more items
-	do
-	{
-	cout << "\nWould you like to continue shopping? (0 = yes 1 = no)";
-	again = inputChecker(userChoice, 1);
-	}while(again);
-
-	//Runs the function again
-	if(userChoice == 0)
-	{
-		accessStore(items);
-	}
-
-
-}
-void accessInventory(std::vector<item> &items)
-{
-	float total = 0;
-	int i;
-	int size = items.size();
-	cout << "You currently have the following items in your inventory:\n";
-	for(i = 0; i < size-1; i++)
-	{
-		if(items.at(i).getNumber != 0)
-		{
-			cout << "You have " << items.at(i).getNumber
-				 << ' ' << items.at(i).getItem() <<'s';
-			total = total + (items.at(i).getNumber() * items.at(i).getPrice());
-			cout << endl;
-		}
-	}
-	if(total == 0)
-	{
-		cout << "You have no items!\n";
-	}
-	else
-	{
-		cout << "You have spent a total of $" << total << endl;
-	}
-
-	cout << "*Press ENTER to return*\n";
-	cin.get();
-
-}
-void adminStorePanel(std::vector<item> &items)
-{
-	bool invalid = true;
-	int menuChoice;
-	do
-	{
-	cout << "0. Return\n";
-	cout << "1. Add Item\n";
-	cout << "2. Delete Item\n";
-	cout << "3. Modify Existing item\n";
-	cout << "Enter choice: ";
-	invalid = inputChecker(menuChoice, 3);
-	}while(invalid);
-	switch(menuChoice)
-	{
-	case 0:
-		break;
-	case 1:
-		adminAddItem(items);
-		break;
-	case 2:
-		adminDeleteItem(items);
-		break;
-	case 3:
-		adminModifyItem(items);
-		break;
-	default:
-		break;
-	}
-}
-void adminAddItem(std::vector<item> &items)
-{
-	item newItem;				//Creates a new item
-	string itemName;			//Name of the new item
-	float itemPrice;			//Price for the item
-	int i;
-	//Asks user for the name of the new item
-	cout << "Please enter a name for this Item: ";
-	getline(cin, itemName);
-	//Asks user for
-	cout << "\nPlease enter a price for this Item: ";
-	cin >> itemPrice;
-
-	//Actually adds the item to the vector
-	items.push_back(newItem);
-	i = items.end();
-	items.at(i).setItem(itemName);
-	items.at(i).setPrice(itemPrice);
-
-	//Informs the user of the details of the item they added
-	cout << "You have added " << items.at(i).getItem
-		 << " at $" << items.at(i).getPrice();
-
-	cout << "\n\n*Press ENTER to return*\n";
-	cin.get();
-}
-void adminDeleteItem(std::vector<item> &items)
-{
-	int i;								//CALC - Int for looping
-	int size = items.size();			//CALC - Size of vector
-	bool invalid = true;				//CALC - Error Checking
-	int userChoice;						//IN   - User input
-
-	//Loops the menu
-	do
-	{
-		//Outputs the menu
-		for(i = 1; i < size; i++)
-		{
-			cout << i << ". " << items.at(i-1).getItem()
-					<< " -- $" << items.at(i-1).getPrice();
-			cout << endl;
-		}
-		//prompts user to remove an item
-		cout << "Please select an item to remove: ";
-		invalid = inputChecker(userChoice, size);
-	}while(invalid);
-	//erases item
-	cout << "Erasing " << items.at(userChoice-1).getItem();
-	items.erase(items.begin()+userChoice);
-
-	cout << "\n\n*Press ENTER to return*\n";
-	cin.get();
-}
-void adminModifyItem(std::vector<item> &items)
-{
-	int i;								//CALC - Int for looping
-	int size = items.size();			//CALC - Size of vector
-	bool invalid = true;				//CALC - Error Checking
-	int userChoice;						//IN   - User input
-	string itemName;
-	int itemPrice;
-
-	//Loops the menu
-	do
-	{
-		//Outputs the menu
-		for(i = 1; i < size; i++)
-		{
-			cout << i << ". " << items.at(i-1).getItem()
-					<< " -- $" << items.at(i-1).getPrice();
-			cout << endl;
-		}
-		//prompts user to remove an item
-		cout << "Please select an item to Modify: ";
-		invalid = inputChecker(userChoice, size);
-	}while(invalid);
-	//decreases i
-	i--;
-	//Asks user for the name of the new item
-	cout << "\nPlease enter a new name for this Item: ";
-	getline(cin, itemName);
-	//Asks user for price of new item
-	cout << "\nPlease enter a new price for this Item: ";
-	cin >> itemPrice;
-	//sets name and price
-	items.at(i).setItem(itemName);
-	items.at(i).setPrice(itemPrice);
-
-	//Informs the user of the details of the item they modified
-	cout << "You have changed the item to  " << items.at(i).getItem
-		 << " at $" << items.at(i).getPrice();
-
-	cout << "\n\n*Press ENTER to return*\n";
-	cin.get();
-}
 bool inputChecker(int &userChoice, int maxChoice)
 {
 	// VARIABLES
 	bool invalid;		// CALC - Main boolean for the function.
+	invalid = false;
+
 	int shift;
 	if (!(cin >> userChoice))
 	{
@@ -1004,7 +799,7 @@ bool inputChecker(int &userChoice, int maxChoice)
 
 		cout << endl;
 
-			cout << "\n***** Please input a NUMBER between 1 and ";
+			cout << "\n***** Please input a NUMBER between 0 and ";
 			cout << maxChoice;
 			cout <<	"*****\n\n";
 
@@ -1047,7 +842,7 @@ bool inputChecker(int &userChoice, int maxChoice)
 		}
 
 		// OUTPUT
-		cout << "\n***** Please input a NUMBER between 1 and ";
+		cout << "\n***** Please input a NUMBER between 0 and ";
 		cout << maxChoice;
 		cout <<	"*****\n\n";
 
@@ -1056,4 +851,272 @@ bool inputChecker(int &userChoice, int maxChoice)
 
 	}// END OF ELSE IF STATEMENT
 	return invalid;
+}
+
+void tripPlanner(std::vector<stadium> &Stadiums)
+{
+	// VARIABLES
+	vector<string> connections;
+	vector<int> connectDistances;
+	vector<stadium> S;
+	vector<string> visits;
+	int choice;			// INP  - Choice made by the user(s)
+	int totalDistanceT;	// CALC - TOTAL DISTANCE TRAVELED
+	int ballParkSize;	// CALC - Size of the ballparks array
+	bool invalid = true;//Valid menu choice
+	string passedStadium;
+
+	// INITIALIZE
+	totalDistanceT = 0;
+	ballParkSize = 30;
+	S = Stadiums;
+
+	// OUTPUT - Prompts the user of what this option does
+	cout << "\nWelcome to the Trip Planner! This tool allows you to plan your dream";
+	cout << " baseball vacation. Choose any stadium to start: \n";
+
+	// DO WHILE LOOP - Increments until the user enters a valid input
+	do{
+		// FOR LOOP - Increments until the index reaches the end of the array of ballparks
+		for(int index = 0; index < ballParkSize; index++)
+		{
+			// OUTPUT BALLPARKS
+			cout << index+1 << ". "  << Stadiums.at(index).getStadium() << endl;
+		} // END OF FOR
+		cout <<"0. BACK\n";
+		cout <<"Enter Stadium #: ";
+
+		// FUNCTION - Checks for invalid Input
+		invalid = inputChecker(choice, ballParkSize);
+	}while(invalid); // END OF DO WHILE LOOP
+
+	// IF STATEMENT - Checking if User has exited the trip Planner
+	if(choice!=0)
+	{
+		passedStadium = Stadiums.at(choice-1).getStadium();
+
+		visits.push_back(passedStadium);
+
+		// FUNCTION - Goes to the secondary menu of the tripPlanner
+		tripPlannerSecondMenu(S, visits, totalDistanceT);
+	}// END OF IF STATEMENT
+
+}
+
+void tripPlannerSecondMenu(std::vector<stadium> &Stadiums, std::vector<string> &visits, int distance)
+{
+	vector<string> connections;
+	vector<int> connectDistances;
+	vector<stadium> S;
+	bool valid;
+	int newChoice;
+	int secondChoice;
+	string currentStadium;
+	string newStadium;
+
+	S = Stadiums;
+	secondChoice = -1;
+	newChoice = -1;
+	valid = true;
+
+	currentStadium = visits.back();
+
+	// REINITALIZE - Vectors being initialized to the user's choice
+	if(currentStadium == "Angels Stadium of Anaheim")
+	{
+		connections = Stadiums.at(0).getConnect();
+		connectDistances = Stadiums.at(0).getConnectD();
+	}
+	else if(currentStadium == "Comerica Park")
+	{
+		connections = Stadiums.at(1).getConnect();
+		connectDistances = Stadiums.at(1).getConnectD();
+	}
+	else if(currentStadium == "Fenway Park")
+		{
+			connections = Stadiums.at(2).getConnect();
+			connectDistances = Stadiums.at(2).getConnectD();
+		}
+	else if(currentStadium == "Rangers Ballpark")
+		{
+			connections = Stadiums.at(3).getConnect();
+			connectDistances = Stadiums.at(3).getConnectD();
+		}
+	else if(currentStadium == "Kauffman Stadium")
+		{
+			connections = Stadiums.at(4).getConnect();
+			connectDistances = Stadiums.at(4).getConnectD();
+		}
+	else if(currentStadium == "Minute Maid Park")
+		{
+			connections = Stadiums.at(5).getConnect();
+			connectDistances = Stadiums.at(5).getConnectD();
+		}
+	else if(currentStadium == "Oco Coliseum")
+		{
+			connections = Stadiums.at(6).getConnect();
+			connectDistances = Stadiums.at(6).getConnectD();
+		}
+	else if(currentStadium == "Oriole Park at Camden Yards")
+		{
+			connections = Stadiums.at(7).getConnect();
+			connectDistances = Stadiums.at(7).getConnectD();
+		}
+	else if(currentStadium == "Progressive Field")
+		{
+			connections = Stadiums.at(8).getConnect();
+			connectDistances = Stadiums.at(8).getConnectD();
+		}
+	else if(currentStadium == "Rogers Center")
+		{
+			connections = Stadiums.at(9).getConnect();
+			connectDistances = Stadiums.at(9).getConnectD();
+		}
+	else if(currentStadium == "SafeCo Field")
+		{
+			connections = Stadiums.at(10).getConnect();
+			connectDistances = Stadiums.at(10).getConnectD();
+		}
+	else if(currentStadium == "Target Field")
+		{
+			connections = Stadiums.at(11).getConnect();
+			connectDistances = Stadiums.at(11).getConnectD();
+		}
+	else if(currentStadium == "US Cellular Field")
+		{
+			connections = Stadiums.at(12).getConnect();
+			connectDistances = Stadiums.at(12).getConnectD();
+		}
+	else if(currentStadium == "Yankee Stadium")
+		{
+			connections = Stadiums.at(13).getConnect();
+			connectDistances = Stadiums.at(13).getConnectD();
+		}
+	else if(currentStadium == "AT&T Park")
+		{
+			connections = Stadiums.at(14).getConnect();
+			connectDistances = Stadiums.at(14).getConnectD();
+		}
+	else if(currentStadium == "Busch Stadium")
+		{
+			connections = Stadiums.at(15).getConnect();
+			connectDistances = Stadiums.at(15).getConnectD();
+		}
+	else if(currentStadium == "Chase Field")
+		{
+			connections = Stadiums.at(16).getConnect();
+			connectDistances = Stadiums.at(16).getConnectD();
+		}
+	else if(currentStadium == "Citi Field")
+		{
+			connections = Stadiums.at(17).getConnect();
+			connectDistances = Stadiums.at(17).getConnectD();
+		}
+	else if(currentStadium == "Citizens Bank Park")
+		{
+			connections = Stadiums.at(18).getConnect();
+			connectDistances = Stadiums.at(18).getConnectD();
+		}
+	else if(currentStadium == "Coors Field")
+		{
+			connections = Stadiums.at(19).getConnect();
+			connectDistances = Stadiums.at(19).getConnectD();
+		}
+	else if(currentStadium == "Dodger Stadium")
+		{
+			connections = Stadiums.at(21).getConnect();
+			connectDistances = Stadiums.at(21).getConnectD();
+		}
+	else if(currentStadium == "Great America Ball Park")
+		{
+			connections = Stadiums.at(22).getConnect();
+			connectDistances = Stadiums.at(22).getConnectD();
+		}
+	else if(currentStadium == "Marlins Park")
+		{
+			connections = Stadiums.at(23).getConnect();
+			connectDistances = Stadiums.at(23).getConnectD();
+		}
+
+	else if(currentStadium == "Miller Park")
+		{
+			connections = Stadiums.at(24).getConnect();
+			connectDistances = Stadiums.at(24).getConnectD();
+		}
+	else if(currentStadium == "Nationals Park")
+		{
+			connections = Stadiums.at(25).getConnect();
+			connectDistances = Stadiums.at(25).getConnectD();
+		}
+	else if(currentStadium == "Petco Park")
+		{
+			connections = Stadiums.at(26).getConnect();
+			connectDistances = Stadiums.at(26).getConnectD();
+		}
+	else if(currentStadium == "PNC Park")
+		{
+			connections = Stadiums.at(27).getConnect();
+			connectDistances = Stadiums.at(27).getConnectD();
+		}
+	else if(currentStadium == "Turner Field")
+		{
+			connections = Stadiums.at(28).getConnect();
+			connectDistances = Stadiums.at(28).getConnectD();
+		}
+	else if(currentStadium == "Wrigley Field")
+		{
+			connections = Stadiums.at(29).getConnect();
+			connectDistances = Stadiums.at(29).getConnectD();
+		}
+
+	cout << "\nStadiums connected to " << currentStadium <<": \n";
+
+
+
+	// DO WHILE LOOP - Takes user input for stadiums that they would like to visit
+	do
+	{
+			// FOR LOOP - Outputs the stadiums connected to the user's choice
+			for(unsigned int i = 0; i < connections.size(); i++)
+			{
+				cout << i+1 << ". " << connections.at(i) << endl;
+			} // END OF FOR LOOP
+
+			cout << "0. (Check Total Distance Traveled/End the Trip)\n";
+			valid = inputChecker(newChoice, connections.size());
+
+			// CHECKING if User wants to exit
+			if(newChoice == 0)
+			{
+				cout << "\nYour total distance traveled is: " << distance << " miles";
+				cout << "\nYou've already visited: ";
+				for(unsigned int i = 0; i < visits.size(); i++)
+				{
+					cout << "(" << visits.at(i) << "), ";
+				}
+				cout << "\nWould you like to exit?: ";
+				cout << "\n1. Visit more Stadiums";
+				cout << "\n0. Return to the main Menu";
+
+				inputChecker(secondChoice, 1);
+				if(secondChoice == 0)
+				{
+					return;
+				}
+				else
+				{
+					// FUNCTION - RECURSION
+					tripPlannerSecondMenu(S, visits, distance);
+				}
+			} // END OF IF STATEMENT
+
+	}while(valid); // END OF DO WHILE LOOP
+
+	newStadium = connections.at(newChoice-1);
+	// PROCESSING - Adding the new location to the visited vector
+	visits.push_back(newStadium);
+
+	distance+= connectDistances.at(newChoice-1);
+	// FUNCTION - RECURSION
+	tripPlannerSecondMenu(S, visits, distance);
 }

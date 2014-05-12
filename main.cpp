@@ -83,7 +83,7 @@ int main()
 
 							// CASE RANDOMSTADIUM
 							case RANDOMSTADIUM:
-											randomStadium(S);
+								randomStadium(S);
 											break; // END OF CASE RANDOMSTADIUM
 
 							// CASE DEFAULT - Default case.
@@ -102,30 +102,31 @@ int main()
 				//SORT function to sort the vector by stadium
 								break; // END OF CASE STADIUMNAME
 
-				// CASE TEAMNAME
+				// CASE TRIPPLANNER
 				case TRIPPLANNER:
-					cout << "\nTO BE INCLUDED LATER!\n";
-
+					// FUNCTION - TripPlanner - Method that helps the user plan their
+					//							travels, destination by destination
+					tripPlanner(S);
 					//SORT function to sort the vector by teamName
 								break; // END OF CASE TEAMNAME
 
-				// CASE GRASSTOP
+				// CASE SOUVENIRSHOP
 				case SOUVENIRSHOP:
 					cout << "\nTO BE INCLUDED LATER!\n";
 					//SORT function to sort the vector by stadium
 								break; // END OF CASE GRASSTOP
 
-				// CASE LEAGUETYPE
+				// CASE DISTANCE MEASURE
 				case DISTANCEMEASURE:
 					StoryTen();
 								break; // END OF CASE LEAGUETYPE
 
-				// CASE LEAGUETYPE
+				// CASE LEAGUEVISIT
 				case LEAGUEVISIT:
 					cout << "\nTO BE INCLUDED LATER!\n";
 								break; // END OF CASE LEAGUETYPE
 
-				// CASE LEAGUETYPE
+				// CASE ADMINLOGIN
 				case ADMINLOGIN:
 					cout << "\nTO BE INCLUDED LATER!\n";
 								break; // END OF CASE LEAGUETYPE
@@ -143,11 +144,6 @@ int main()
 			mainSelection = mainMenu(mainChoice);
 
 		}
-
-
-
-
-
 //
 //	OutputMLG(S);
 //	cout << S.size();

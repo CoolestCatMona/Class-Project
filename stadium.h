@@ -1,4 +1,6 @@
 #include <string>
+#include <iostream>
+#include <vector>
 using namespace std;
 #ifndef STADIUM_H_
 #define STADIUM_H_
@@ -13,10 +15,13 @@ public:
 	stadium();
 
 	// CONSTRUCTOR
-	stadium(string inStadium,
-			string inLeague,
-			string inTeam,
-			bool inSurface);
+	stadium(string inStadium,	//IN - Stadium Name
+					 string inLeague,	//IN - League
+					 string inTeam,		//IN - Team Name
+					 bool inSurface,	//IN - Surface Type
+					 int inDay,
+					 int inMonth,
+					 int inYear);
 
 	// METHOD - setStadium: sets the current stadium name
 	void setStadium(string inStadium);
@@ -73,6 +78,17 @@ public:
 	// METHOD - getState: gets the current state
 	Name getState() const;
 
+	// METHOD - setConnect: Sets the current connections of the stadium
+	void setConnect(string &inConnections);
+
+	// METHOD - getConnect: Gets the current connections of the stadium
+	vector<string> getConnect();
+
+	// METHOD - setConnect: Sets the current connection distances of the stadium
+	void setConnectD(string &inConnectionD);
+
+	// METHOD - getConnect: Gets the current connection distances of the stadium
+	vector<int> getConnectD();
 
 
 private:
@@ -82,6 +98,8 @@ private:
 	int day;			// Day opened
 	string city;		// City of Stadium
 	string state;		// State of Stadium
+	vector<string> connections;	// Vector of connections
+	vector<int> connectionD;    // Vector of Distance of stadiums connected to this one
 	Name league;		// League: National or American
 	Name teamName;		// Name of team that plays there
 	bool surface;		// True = Grass Surface; False = Non Grass Surface

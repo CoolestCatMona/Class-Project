@@ -90,8 +90,15 @@ enum mainMenu
 	LEAGUEVISIT,
 	ADMINLOGIN
 };
+
+/*************************************************************************
+* ENUM stad
+* ------------------------------------------------------------------------
+* This ENUM is designed to create a menu of all possible stadiums the user can access
+**************************************************************************/
 enum stad
 {
+	EXITSTAD,
 	ATT,
 	OCO,
 	SAFECO,
@@ -123,6 +130,19 @@ enum stad
 	CAMDEN,
 	NATIONALS
 };
+
+/*************************************************************************
+* ENUM tripMenu
+* ------------------------------------------------------------------------
+* This ENUM is designed to create a menu of all possible stadiums the user can access
+**************************************************************************/
+
+enum tripPlanner
+{
+
+};
+
+
 /**************************************************************************
 * CONSTANTS
 * ------------------------------------------------------------------------
@@ -220,13 +240,48 @@ int Spacing (int input);
  * 	This function handles the menu for selecting sorting options
  *************************************************************************/
 void UserChoice(int &userChoice, int menuType, int maxMenu);
+
+/**************************************************************************
+ * Dijkstra
+ * 	This function traverses the graph of stadiums
+ *************************************************************************/
 void Dijkstra(vertex_t source,
                           const adjacency_list_t &adjacency_list,
                           std::vector<weight_t> &min_distance,
                           std::vector<vertex_t> &previous);
+
+/**************************************************************************
+ * Shortest
+ * 	This function determines the shortest distance between two stadiums
+ *************************************************************************/
 std::list<vertex_t> Shortest(
     vertex_t vertex, const std::vector<vertex_t> &previous);
+
+/**************************************************************************
+ * inputChecker
+ * 	This function checks for invalid input
+ *************************************************************************/
 bool inputChecker(int &userChoice, int maxChoice);
+
+/**************************************************************************
+ * StoryTen
+ * 	This function handles the menu for determining the shortest distance
+ * 	between any two stadiums
+ *************************************************************************/
 void StoryTen();
+
+/**************************************************************************
+ * TripPlanner
+ * 	This function handles the menu and distance traveled for the trip planner
+ * 	option
+ *************************************************************************/
+void tripPlanner(std::vector<stadium> &Stadiums);
+
+/**************************************************************************
+ * TripPlannerSecondMenu
+ * 	This function handles the menu and distance traveled for the trip planner
+ * 	option
+ *************************************************************************/
+void tripPlannerSecondMenu(std::vector<stadium> &Stadiums, std::vector<string> &visits, int distance);
 
 #endif /* HEADERFILE_H_ */
